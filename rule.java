@@ -578,7 +578,7 @@ public class rule extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
@@ -627,9 +627,26 @@ public class rule extends AppCompatActivity {
                         }).show();
                 break;
 
-            case R.id.oddsrule:
-                Toast.makeText(this,"你点击了add",Toast.LENGTH_SHORT).show();
+            case R.id.wagerrule:
+
+                AlertDialog.Builder inputDialog2 =
+                        new AlertDialog.Builder(rule.this);
+                inputDialog2.setTitle("Wager calculation rule");
+                inputDialog2.setIcon(R.drawable.logo);
+                inputDialog2.setMessage("- The winner takes the betting amount.\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
+                        "- If a participant wins by betting a tie wager, he/she wins 8 times the betting amount.\n"+
+                        "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
+                        "- If a participant wins by Pair Bet, he/she wins 11 times the betting amount. (Pair: when the first 2 cards are the same)\n");
+                inputDialog2.setPositiveButton("sure",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
                 break;
+
             case R.id.history:
                 Intent intent3 = new Intent();
                 intent3.setClass(rule.this,historyrule.class);

@@ -192,10 +192,10 @@ public class leaderboard extends AppCompatActivity {
 
 
 
-
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
@@ -253,5 +253,5 @@ public class leaderboard extends AppCompatActivity {
             default:
         }
         return true;
-    }
+    }*/
 }

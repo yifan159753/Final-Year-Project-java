@@ -1,7 +1,9 @@
 package com.example.finalyearproject;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +25,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -30,12 +35,16 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class wagers extends AppCompatActivity {
 
     Session session;
     private String checkname,checkmark,checklevel;
     private static String checkurl;
+    private int wager,ansint=0;
+    private TextView question,ans;
+    private Button checkbutton,reset,chips1,chips2,chips3,chips4,chips5,chips6;
 
 
     @Override
@@ -44,6 +53,20 @@ public class wagers extends AppCompatActivity {
         setContentView(R.layout.activity_wagers);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        question=findViewById(R.id.wagerquestion);
+        ans=findViewById(R.id.wagerans);
+        checkbutton=findViewById(R.id.submit);
+        reset=findViewById(R.id.reset);
+        chips1=findViewById(R.id.chips1);
+        chips2=findViewById(R.id.chips2);
+        chips3=findViewById(R.id.chips3);
+        chips4=findViewById(R.id.chips4);
+        chips5=findViewById(R.id.chips5);
+        chips6=findViewById(R.id.chips6);
+
+
 
         session=new Session(this);
         HashMap<String,String> user=session.getUserDetail();
@@ -58,7 +81,6 @@ public class wagers extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
 
-
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, checkurl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -71,8 +93,6 @@ public class wagers extends AppCompatActivity {
 
                             Snackbar.make(view, "Welcome "+checkname+",    mark:"+checkmark+",   level:"+checklevel, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-
-
 
                         }
                         catch (JSONException e){
@@ -104,14 +124,130 @@ public class wagers extends AppCompatActivity {
 
 
 
+        Random();
+        question.setText(""+wager);
+
+
+        chips1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=5;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=15;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=25;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=100;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=500;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=1000;
+                ans.setText(""+ansint);
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint=0;
+                ans.setText(""+ansint);
+            }
+        });
+
+        checkbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(ansint==wager*0.95){
+                    AlertDialog.Builder inputDialog =
+                            new AlertDialog.Builder(wagers.this);
+                    inputDialog.setTitle("Winnnn");
+                    inputDialog.setPositiveButton("next",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    Intent intent = new Intent();
+                                    intent.setClass(wagers.this,wagers.class);
+                                    startActivity(intent);
+
+                                }
+                                //}).show();
+                            });
+                    AlertDialog dialog = inputDialog.create();
+                    dialog.setCancelable(false);
+                    dialog.show();
+                }else{
+                    AlertDialog.Builder inputDialog =
+                            new AlertDialog.Builder(wagers.this);
+                    inputDialog.setTitle("Sorry, the choice is wrong.");
+                    inputDialog.setPositiveButton("next",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    Intent intent = new Intent();
+                                    intent.setClass(wagers.this,wagers.class);
+                                    startActivity(intent);
+
+                                }
+                                //}).show();
+                            });
+                    AlertDialog dialog = inputDialog.create();
+                    dialog.setCancelable(false);
+                    dialog.show();
+                }
+
+            }
+        });
+
 
     }
 
 
 
+    private void Random() {
+        Random random=new Random();
+        wager = (random.nextInt(96)+3)*100;
+
+    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
@@ -132,7 +268,7 @@ public class wagers extends AppCompatActivity {
 
             case R.id.next:
                 Intent intent2 = new Intent();
-                intent2.setClass(wagers.this,rule.class);
+                intent2.setClass(wagers.this,wagers.class);
                 startActivity(intent2);
                 break;
 
@@ -160,9 +296,26 @@ public class wagers extends AppCompatActivity {
                         }).show();
                 break;
 
-            case R.id.oddsrule:
-                Toast.makeText(this,"你点击了add",Toast.LENGTH_SHORT).show();
+            case R.id.wagerrule:
+
+                AlertDialog.Builder inputDialog2 =
+                        new AlertDialog.Builder(wagers.this);
+                inputDialog2.setTitle("Wager calculation rule");
+                inputDialog2.setIcon(R.drawable.logo);
+                inputDialog2.setMessage("- The winner takes the betting amount.\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
+                        "- If a participant wins by betting a tie wager, he/she wins 8 times the betting amount.\n"+
+                        "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
+                        "- If a participant wins by Pair Bet, he/she wins 11 times the betting amount. (Pair: when the first 2 cards are the same)\n");
+                inputDialog2.setPositiveButton("sure",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
                 break;
+
             case R.id.history:
                 Intent intent3 = new Intent();
                 intent3.setClass(wagers.this,historyrule.class);
