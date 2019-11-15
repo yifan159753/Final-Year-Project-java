@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.CountDownTimer;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,9 +42,9 @@ public class wagers extends AppCompatActivity {
 
     Session session;
     private String checkname,checkmark,checklevel;
-    private static String checkurl;
-    private int wager,ansint=0;
-    private TextView question,ans;
+    private static String URL,checkurl;
+    private int wager,ansint=0,time;
+    private TextView question,ans,textTimer;
     private Button checkbutton,reset,chips1,chips2,chips3,chips4,chips5,chips6;
 
 
@@ -53,6 +54,9 @@ public class wagers extends AppCompatActivity {
         setContentView(R.layout.activity_wagers);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        textTimer = findViewById(R.id.timer);
 
 
         question=findViewById(R.id.wagerquestion);
@@ -73,7 +77,7 @@ public class wagers extends AppCompatActivity {
         checkname=user.get(Session.NAME);
         String url = user.get(Session.URL);
 
-        //URL= url +"win.php";
+        URL= url +"wagerswin.php";
         checkurl= url +"checkid.php";
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -121,6 +125,38 @@ public class wagers extends AppCompatActivity {
                 requestQueue.add(stringRequest);
             }
         });
+
+
+
+        new CountDownTimer(60000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                time=60-(int) millisUntilFinished;
+                textTimer.setText("seconds remaining: " + (millisUntilFinished / 1000) );
+            }
+
+            public void onFinish() {
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(wagers.this);
+                inputDialog.setTitle("Sorry, time is up.");
+                inputDialog.setPositiveButton("next",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent intent = new Intent();
+                                intent.setClass(wagers.this,wagers.class);
+                                startActivity(intent);
+
+                            }
+                            //}).show();
+                        });
+                AlertDialog dialog = inputDialog.create();
+                dialog.setCancelable(false);
+                dialog.show();
+            }
+
+        }.start();
 
 
 
@@ -189,6 +225,37 @@ public class wagers extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(ansint==wager*0.95){
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                        }
+                    },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(wagers.this, "error！" + error.toString(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            })
+
+                    {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> params = new HashMap<>();
+                            params.put("ansint",Integer.toString(ansint));
+                            params.put("wager",Integer.toString(wager));
+                            params.put("name",checkname);
+                            params.put("time",Integer.toString(time));
+                            return params;
+                        }
+                    };
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(wagers.this);
+                    requestQueue.add(stringRequest);
+
+
                     AlertDialog.Builder inputDialog =
                             new AlertDialog.Builder(wagers.this);
                     inputDialog.setTitle("Winnnn");
@@ -207,6 +274,7 @@ public class wagers extends AppCompatActivity {
                     AlertDialog dialog = inputDialog.create();
                     dialog.setCancelable(false);
                     dialog.show();
+
                 }else{
                     AlertDialog.Builder inputDialog =
                             new AlertDialog.Builder(wagers.this);
@@ -232,13 +300,16 @@ public class wagers extends AppCompatActivity {
         });
 
 
+
+
+
     }
 
 
 
     private void Random() {
         Random random=new Random();
-        wager = (random.nextInt(96)+3)*100;
+        wager = (random.nextInt(98)+1)*100;
 
     }
 
@@ -318,7 +389,7 @@ public class wagers extends AppCompatActivity {
 
             case R.id.history:
                 Intent intent3 = new Intent();
-                intent3.setClass(wagers.this,historyrule.class);
+                intent3.setClass(wagers.this,historywagers.class);
                 startActivity(intent3);
                 break;
             default:

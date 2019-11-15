@@ -70,7 +70,7 @@ public class rule extends AppCompatActivity {
         checkname=user.get(Session.NAME);
         String url = user.get(Session.URL);
 
-        URL= url +"win.php";
+        URL= url +"rulewin.php";
         checkurl= url +"checkid.php";
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -173,7 +173,7 @@ public class rule extends AppCompatActivity {
             no.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    question.setText("Do banker need to continue to dealt a card ?");
+                    question.setText("Do banker need to draws a third card ?");
                     yes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -196,7 +196,7 @@ public class rule extends AppCompatActivity {
             no.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    question.setText("Do banker need to continue to dealt a card ?");
+                    question.setText("Do banker need to draws a third card ?");
                     if((card[4]+card[5])%10<6){
                         yes.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -251,7 +251,7 @@ public class rule extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
-                    question.setText("Do banker need to continue to dealt a card ?");
+                    question.setText("Do banker need to draws a third card ?");
                     if(     ((card[4]+card[5])%10<3)||
                             ((card[4]+card[5])%10==3&&card[3]!=8)||
                             ((card[4]+card[5])%10==4&&(card[3]!=0&&card[3]!=1&&card[3]!=8&&card[3]!=9))||
