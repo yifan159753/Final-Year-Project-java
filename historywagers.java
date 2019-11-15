@@ -1,5 +1,6 @@
 package com.example.finalyearproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -16,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -108,6 +111,8 @@ public class historywagers extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 
@@ -176,6 +181,15 @@ public class historywagers extends AppCompatActivity {
 
     }
 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent();
+            intent.setClass(historywagers.this,wagers.class);
+            startActivity(intent);
+            return true;
+        }
+        return false;
+    }
 
 
 }

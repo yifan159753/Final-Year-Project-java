@@ -131,8 +131,8 @@ public class wagers extends AppCompatActivity {
         new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                time=60-(int) millisUntilFinished;
-                textTimer.setText("seconds remaining: " + (millisUntilFinished / 1000) );
+                time=60-(int) millisUntilFinished / 1000;
+                textTimer.setText("Seconds Remaining: " + (millisUntilFinished / 1000) );
             }
 
             public void onFinish() {
