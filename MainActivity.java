@@ -65,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
 
-                /*Snackbar.make(vieww, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, checkurl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -80,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
                             Snackbar.make(view, "Welcome "+checkname+",    mark:"+checkmark+",   level:"+checklevel, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-
-
 
                         }
                         catch (JSONException e){

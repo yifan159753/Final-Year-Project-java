@@ -272,20 +272,6 @@ public class rule extends AppCompatActivity {
                             }
                         });
                     }
-                    /*else if((card[4]+card[5])%10==7){
-                        yes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                error();
-                            }
-                        });
-                        no.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                winthreetwo();
-                            }
-                        });
-                    }*/
                     else{
                         yes.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -635,9 +621,10 @@ public class rule extends AppCompatActivity {
                 inputDialog2.setIcon(R.drawable.logo);
                 inputDialog2.setMessage("- The winner takes the betting amount.\n"+
                         "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
-                        "- If a participant wins by betting a tie wager, he/she wins 8 times the betting amount.\n"+
+                        "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
                         "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
-                        "- If a participant wins by Pair Bet, he/she wins 11 times the betting amount. (Pair: when the first 2 cards are the same)\n");
+                        "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
+                        "(Pair: when the first 2 cards are the same)\n");
                 inputDialog2.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override

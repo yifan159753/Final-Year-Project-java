@@ -45,7 +45,7 @@ public class wagers extends AppCompatActivity {
     private static String URL,checkurl;
     private int wager,ansint=0,time;
     private TextView question,ans,textTimer;
-    private Button checkbutton,reset,chips1,chips2,chips3,chips4,chips5,chips6;
+    private Button checkbutton,reset,prompt,chips1,chips2,chips3,chips4,chips5,chips6;
 
 
     @Override
@@ -63,6 +63,7 @@ public class wagers extends AppCompatActivity {
         ans=findViewById(R.id.wagerans);
         checkbutton=findViewById(R.id.submit);
         reset=findViewById(R.id.reset);
+        prompt=findViewById(R.id.prompt);
         chips1=findViewById(R.id.chips1);
         chips2=findViewById(R.id.chips2);
         chips3=findViewById(R.id.chips3);
@@ -80,224 +81,290 @@ public class wagers extends AppCompatActivity {
         URL= url +"wagerswin.php";
         checkurl= url +"checkid.php";
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, checkurl, new Response.Listener<String>() {
             @Override
-            public void onClick(final View view) {
+            public void onResponse(String response) {
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, checkurl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
+                    checkmark = jsonObject.getString("mark");
+                    checklevel = jsonObject.getString("lv");
 
-                            checkmark = jsonObject.getString("mark");
-                            checklevel = jsonObject.getString("lv");
+                    FloatingActionButton fab = findViewById(R.id.fab);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View view) {
 
                             Snackbar.make(view, "Welcome "+checkname+",    mark:"+checkmark+",   level:"+checklevel, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
 
                         }
-                        catch (JSONException e){
-                            e.printStackTrace();
-                        }
+                    });
+
+                    if (Integer.parseInt(checkmark) >= 1000){
+
+                        new CountDownTimer(60000, 1000) {
+
+                            public void onTick(long millisUntilFinished) {
+                                time=60-(int) millisUntilFinished / 1000;
+                                textTimer.setText("Seconds Remaining: " + (millisUntilFinished / 1000) );
+                            }
+
+                            public void onFinish() {
+                                AlertDialog.Builder inputDialog =
+                                        new AlertDialog.Builder(wagers.this);
+                                inputDialog.setTitle("Sorry, time is up.");
+                                inputDialog.setPositiveButton("next",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                Intent intent = new Intent();
+                                                intent.setClass(wagers.this,wagers.class);
+                                                startActivity(intent);
+
+                                            }
+                                            //}).show();
+                                        });
+                                AlertDialog dialog = inputDialog.create();
+                                dialog.setCancelable(false);
+                                dialog.show();
+                            }
+
+                        }.start();
 
                     }
-                },
-                        new Response.ErrorListener() {
+
+
+                    Random();
+
+                    question.setText(""+wager);
+
+
+                    if (Integer.parseInt(checkmark) < 500){
+
+                        prompt.setVisibility(View.VISIBLE);
+                        prompt.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(wagers.this, "error！" + error.toString(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<>();
-                        params.put("name",checkname);
-                        return params;
-                    }
-                };
+                            public void onClick(View view) {
 
-                RequestQueue requestQueue = Volley.newRequestQueue(wagers.this);
-                requestQueue.add(stringRequest);
-            }
-        });
-
-
-
-        new CountDownTimer(60000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                time=60-(int) millisUntilFinished / 1000;
-                textTimer.setText("Seconds Remaining: " + (millisUntilFinished / 1000) );
-            }
-
-            public void onFinish() {
-                AlertDialog.Builder inputDialog =
-                        new AlertDialog.Builder(wagers.this);
-                inputDialog.setTitle("Sorry, time is up.");
-                inputDialog.setPositiveButton("next",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Intent intent = new Intent();
-                                intent.setClass(wagers.this,wagers.class);
-                                startActivity(intent);
+                                int r= (int) (wager*0.95);
+                                textTimer.setText("Answer tips: "+r  );
 
                             }
-                            //}).show();
                         });
-                AlertDialog dialog = inputDialog.create();
-                dialog.setCancelable(false);
-                dialog.show();
-            }
 
-        }.start();
+                    }
 
 
-
-        Random();
-        question.setText(""+wager);
-
-
-        chips1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint+=5;
-                ans.setText(""+ansint);
-            }
-        });
-
-        chips2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint+=15;
-                ans.setText(""+ansint);
-            }
-        });
-
-        chips3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint+=25;
-                ans.setText(""+ansint);
-            }
-        });
-
-        chips4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint+=100;
-                ans.setText(""+ansint);
-            }
-        });
-
-        chips5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint+=500;
-                ans.setText(""+ansint);
-            }
-        });
-
-        chips6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint+=1000;
-                ans.setText(""+ansint);
-            }
-        });
-
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ansint=0;
-                ans.setText(""+ansint);
-            }
-        });
-
-        checkbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(ansint==wager*0.95){
-
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    chips1.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onResponse(String response) {
+                        public void onClick(View view) {
+                            ansint+=5;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+                    chips2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ansint+=15;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+                    chips3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ansint+=25;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+                    chips4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ansint+=100;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+                    chips5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ansint+=500;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+                    chips6.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ansint+=1000;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+                    reset.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ansint=0;
+                            ans.setText(""+ansint);
+                        }
+                    });
+
+
+
+                    checkbutton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v2) {
+
+                            if(ansint==wager*0.95){
+
+
+                                if (Integer.parseInt(checkmark) < 1000){
+
+                                    StringRequest stringRequest2 = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+
+                                        }
+                                    },
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(wagers.this, "error！" + error.toString(),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+
+                                    {
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String,String> params = new HashMap<>();
+                                            params.put("ansint",Integer.toString(ansint));
+                                            params.put("wager",Integer.toString(wager));
+                                            params.put("name",checkname);
+                                            params.put("time",Integer.toString(999));
+                                            params.put("mark",Integer.toString(10));
+                                            return params;
+                                        }
+                                    };
+
+                                    RequestQueue requestQueue2 = Volley.newRequestQueue(wagers.this);
+                                    requestQueue2.add(stringRequest2);
+
+                                }
+
+
+                                if (Integer.parseInt(checkmark) >= 1000){
+
+                                StringRequest stringRequest2 = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                    }
+                                },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(wagers.this, "error！" + error.toString(),
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+
+                                {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        Map<String,String> params = new HashMap<>();
+                                        params.put("ansint",Integer.toString(ansint));
+                                        params.put("wager",Integer.toString(wager));
+                                        params.put("name",checkname);
+                                        params.put("time",Integer.toString(time));
+                                        params.put("mark",Integer.toString(20));
+                                        return params;
+                                    }
+                                };
+
+                                RequestQueue requestQueue2 = Volley.newRequestQueue(wagers.this);
+                                requestQueue2.add(stringRequest2);
+
+                                }
+
+
+                                AlertDialog.Builder inputDialog =
+                                        new AlertDialog.Builder(wagers.this);
+                                inputDialog.setTitle("Winnnn");
+                                inputDialog.setPositiveButton("next",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                Intent intent = new Intent();
+                                                intent.setClass(wagers.this,wagers.class);
+                                                startActivity(intent);
+
+                                            }
+                                            //}).show();
+                                        });
+                                AlertDialog dialog = inputDialog.create();
+                                dialog.setCancelable(false);
+                                dialog.show();
+
+                            }else{
+                                AlertDialog.Builder inputDialog =
+                                        new AlertDialog.Builder(wagers.this);
+                                inputDialog.setTitle("Sorry, the choice is wrong.");
+                                inputDialog.setPositiveButton("next",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                Intent intent = new Intent();
+                                                intent.setClass(wagers.this,wagers.class);
+                                                startActivity(intent);
+
+                                            }
+                                            //}).show();
+                                        });
+                                AlertDialog dialog = inputDialog.create();
+                                dialog.setCancelable(false);
+                                dialog.show();
+                            }
 
                         }
-                    },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(wagers.this, "error！" + error.toString(),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            })
-
-                    {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> params = new HashMap<>();
-                            params.put("ansint",Integer.toString(ansint));
-                            params.put("wager",Integer.toString(wager));
-                            params.put("name",checkname);
-                            params.put("time",Integer.toString(time));
-                            return params;
-                        }
-                    };
-
-                    RequestQueue requestQueue = Volley.newRequestQueue(wagers.this);
-                    requestQueue.add(stringRequest);
+                    });
 
 
-                    AlertDialog.Builder inputDialog =
-                            new AlertDialog.Builder(wagers.this);
-                    inputDialog.setTitle("Winnnn");
-                    inputDialog.setPositiveButton("next",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
 
-                                    Intent intent = new Intent();
-                                    intent.setClass(wagers.this,wagers.class);
-                                    startActivity(intent);
 
-                                }
-                                //}).show();
-                            });
-                    AlertDialog dialog = inputDialog.create();
-                    dialog.setCancelable(false);
-                    dialog.show();
-
-                }else{
-                    AlertDialog.Builder inputDialog =
-                            new AlertDialog.Builder(wagers.this);
-                    inputDialog.setTitle("Sorry, the choice is wrong.");
-                    inputDialog.setPositiveButton("next",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    Intent intent = new Intent();
-                                    intent.setClass(wagers.this,wagers.class);
-                                    startActivity(intent);
-
-                                }
-                                //}).show();
-                            });
-                    AlertDialog dialog = inputDialog.create();
-                    dialog.setCancelable(false);
-                    dialog.show();
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
 
             }
-        });
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(wagers.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("name",checkname);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(wagers.this);
+        requestQueue.add(stringRequest);
 
 
 
@@ -375,9 +442,10 @@ public class wagers extends AppCompatActivity {
                 inputDialog2.setIcon(R.drawable.logo);
                 inputDialog2.setMessage("- The winner takes the betting amount.\n"+
                         "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
-                        "- If a participant wins by betting a tie wager, he/she wins 8 times the betting amount.\n"+
+                        "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
                         "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
-                        "- If a participant wins by Pair Bet, he/she wins 11 times the betting amount. (Pair: when the first 2 cards are the same)\n");
+                        "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
+                        "(Pair: when the first 2 cards are the same)\n");
                 inputDialog2.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override
