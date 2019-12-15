@@ -145,19 +145,16 @@ public class leaderboard extends AppCompatActivity {
 
                         column0.setText(a+1+"");
                         column0.setGravity(Gravity.CENTER);
-                        column0.setTextSize(20);
+                        //column0.setTextSize(20);
 
                         column1.setText(username[a]);
                         column1.setGravity(Gravity.CENTER);
-                        column1.setTextSize(20);
 
                         column2.setText(mark[a]);
                         column2.setGravity(Gravity.CENTER);
-                        column2.setTextSize(20);
 
                         column3.setText(level[a]);
                         column3.setGravity(Gravity.CENTER);
-                        column3.setTextSize(20);
 
                         newRow.addView(column0);
                         newRow.addView(column1);

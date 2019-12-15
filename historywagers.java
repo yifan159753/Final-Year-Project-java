@@ -131,6 +131,9 @@ public class historywagers extends AppCompatActivity {
                         ans[a] = jsonObject.getString("ans"+a);
                         username[a] = jsonObject.getString("username"+a);
                         time[a] = jsonObject.getString("time"+a);
+                        if (999==Integer.parseInt(time[a])) {
+                            time[a]=" - - - ";
+                        }
 
                         TableRow newRow = new TableRow(historywagers.this);
 

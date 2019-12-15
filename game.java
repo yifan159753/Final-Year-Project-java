@@ -23,6 +23,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -30,12 +33,20 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class game extends AppCompatActivity {
 
+    private int[] card = new int[7];
+    private String[] cardcopy = new String[7];
+    private int[] cardcolor = new int[7];
+    private Button yes,no;
+    private ImageView imageView1,imageView2,imageView3,imageView4,imageView5,imageView6;
+    private TextView question,chipsquestion;
+    private static String URL,checkurl;
     Session session;
     private String checkname,checkmark,checklevel;
-    private static String checkurl;
+    private int win,wager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +56,29 @@ public class game extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        yes = findViewById(R.id.gameyes);
+        no = findViewById(R.id.gameno);
+        question=findViewById(R.id.gamequestion);
+        chipsquestion=findViewById(R.id.chipsquestion);
+        imageView1 = findViewById(R.id.gamebanker1);
+        imageView2 = findViewById(R.id.gamebanker2);
+        imageView3 = findViewById(R.id.gamebanker3);
+        imageView4 = findViewById(R.id.gameplayer1);
+        imageView5 = findViewById(R.id.gameplayer2);
+        imageView6 = findViewById(R.id.gameplayer3);
+
         session=new Session(this);
         HashMap<String,String> user=session.getUserDetail();
         checkname=user.get(Session.NAME);
         String url = user.get(Session.URL);
 
-        //URL= url +"win.php";
+        URL= url +"gamewin.php";
         checkurl= url +"checkid.php";
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, checkurl, new Response.Listener<String>() {
                     @Override
@@ -71,8 +92,6 @@ public class game extends AppCompatActivity {
 
                             Snackbar.make(view, "Welcome "+checkname+",    mark:"+checkmark+",   level:"+checklevel, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-
-
 
                         }
                         catch (JSONException e){
@@ -103,11 +122,464 @@ public class game extends AppCompatActivity {
         });
 
 
+        Random();
+
+
+        if (win==1)
+            chipsquestion.setText("player : "+wager);
+        else if (win==2)
+            chipsquestion.setText("banker : "+wager);
+
+
+        final String[] variableValue = {"card"+cardcolor[1]+card[1],"card"+cardcolor[2]+card[2],"card"+cardcolor[3]+card[3],"card"+cardcolor[4]+card[4],"card"+cardcolor[5]+card[5],"card"+cardcolor[6]+card[6],};
+        imageView4.setImageResource(getResources().getIdentifier(variableValue[0], "drawable", getPackageName()));
+        imageView5.setImageResource(getResources().getIdentifier(variableValue[1], "drawable", getPackageName()));
+        //imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
+        imageView1.setImageResource(getResources().getIdentifier(variableValue[3], "drawable", getPackageName()));
+        imageView2.setImageResource(getResources().getIdentifier(variableValue[4], "drawable", getPackageName()));
+        //imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+
+
+        for(int i=1;i<7;i++) {
+
+            if(card[i]==1){
+                cardcopy[i]="Ace";
+            }
+            else if(card[i]==11){
+                cardcopy[i]="Jack";
+            }
+            else if(card[i]==12){
+                cardcopy[i]="Queen";
+            }
+            else if(card[i]==13){
+                cardcopy[i]="King";
+            }
+            else{
+                cardcopy[i]=Integer.toString(card[i]);
+            }
+
+            if(card[i]>9){
+                card[i] = 0;
+            }
+        }
+
+
+
+
+        if((card[1]+card[2])%10>7||(card[4]+card[5])%10>7){
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    error();
+                }
+            });
+            no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    question.setText("Do banker need to draws a third card ?");
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            error();
+                        }
+                    });
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            question.setText("Whether to payouts ?");
+                            if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win==1) {
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        error();
+                                    }
+                                });
+                                no.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        error();
+                                    }
+                                });
+
+
+                            }
+
+
+
+                            wintwo();
+                        }
+                    });
+                }
+            });
+        }
+
+
+
+        else if((card[1]+card[2])%10==6||(card[1]+card[2])%10==7){
+            no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    question.setText("Do banker need to draws a third card ?");
+                    if((card[4]+card[5])%10<6){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winthree();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                error();
+                            }
+                        });
+                    }
+                    if((card[4]+card[5])%10==6||(card[4]+card[5])%10==7){
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                wintwo();
+                            }
+                        });
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                error();
+                            }
+                        });
+                    }
+
+                }
+            });
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    error();
+                }
+            });
+
+        }
+
+
+        else if((card[1]+card[2])%10<6){
+            no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    error();
+                }
+            });
+
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
+                    question.setText("Do banker need to draws a third card ?");
+                    if(     ((card[4]+card[5])%10<3)||
+                            ((card[4]+card[5])%10==3&&card[3]!=8)||
+                            ((card[4]+card[5])%10==4&&(card[3]!=0&&card[3]!=1&&card[3]!=8&&card[3]!=9))||
+                            ((card[4]+card[5])%10==5&&(card[3]!=0&&card[3]!=1&&card[3]!=2&&card[3]!=3&&card[3]!=8&&card[3]!=9))||
+                            ((card[4]+card[5])%10==6&&(card[3]==6||card[3]==7))
+                    ){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winfour();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                error();
+                            }
+                        });
+                    }
+                    else{
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                error();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                winthreetwo();
+                            }
+                        });
+                    }
+
+
+                }
+            });
+
+        }
+
+
 
 
     }
 
 
+
+    private void Random() {
+        Random random=new Random();
+        for(int i=1;i<7;i++) {
+            card[i] = random.nextInt(13)+1;
+        }
+        for(int j=1;j<7;j++) {
+            cardcolor[j] = random.nextInt(4)+1;
+        }
+        win = (random.nextInt(2)+1);
+        wager = (random.nextInt(98)+1)*100;
+
+    }
+
+
+
+
+    private void error() {
+        /*@setView 装入一个EditView
+         */
+        //final EditText editText = new EditText(rule.this);
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(game.this);
+        //inputDialog.setTitle("Sorry, the choice is wrong.").setView(editText);
+        inputDialog.setTitle("Sorry, the choice is wrong.");
+        inputDialog.setPositiveButton("next",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(game.this,game.class);
+                        startActivity(intent);
+
+                    }
+                    //}).show();
+                });
+        AlertDialog dialog = inputDialog.create();
+        //点击dialog之外的区域禁止取消dialog
+        dialog.setCancelable(false);
+        dialog.show();
+
+    }
+
+    private void wintwo() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(game.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("cardcopy1",cardcopy[1]);
+                params.put("cardcopy2",cardcopy[2]);
+                params.put("cardcopy3","  /");
+                params.put("cardcopy4",cardcopy[4]);
+                params.put("cardcopy5",cardcopy[5]);
+                params.put("cardcopy6","  /");
+                params.put("name",checkname);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(game.this);
+        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setPositiveButton("next",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(game.this,game.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = inputDialog.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+
+    private void winthree() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(game.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("cardcopy1",cardcopy[1]);
+                params.put("cardcopy2",cardcopy[2]);
+                params.put("cardcopy3","  /");
+                params.put("cardcopy4",cardcopy[4]);
+                params.put("cardcopy5",cardcopy[5]);
+                params.put("cardcopy6",cardcopy[6]);
+                params.put("name",checkname);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(game.this);
+        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setPositiveButton("next",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(game.this,game.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = inputDialog.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+
+    private void winthreetwo() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(game.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("cardcopy1",cardcopy[1]);
+                params.put("cardcopy2",cardcopy[2]);
+                params.put("cardcopy3",cardcopy[3]);
+                params.put("cardcopy4",cardcopy[4]);
+                params.put("cardcopy5",cardcopy[5]);
+                params.put("cardcopy6","  /");
+                params.put("name",checkname);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(game.this);
+        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setPositiveButton("next",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(game.this,game.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = inputDialog.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+
+    private void winfour() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(game.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("cardcopy1",cardcopy[1]);
+                params.put("cardcopy2",cardcopy[2]);
+                params.put("cardcopy3",cardcopy[3]);
+                params.put("cardcopy4",cardcopy[4]);
+                params.put("cardcopy5",cardcopy[5]);
+                params.put("cardcopy6",cardcopy[6]);
+                params.put("name",checkname);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(game.this);
+        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setPositiveButton("next",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(game.this,game.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = inputDialog.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 
 
 
@@ -134,7 +606,7 @@ public class game extends AppCompatActivity {
 
             case R.id.next:
                 Intent intent2 = new Intent();
-                intent2.setClass(game.this,rule.class);
+                intent2.setClass(game.this,game.class);
                 startActivity(intent2);
                 break;
 
@@ -148,11 +620,7 @@ public class game extends AppCompatActivity {
                 inputDialog.setTitle("Dealt cards rule");
                 inputDialog.setIcon(R.drawable.logo);
                 inputDialog.setView(v1);
-                inputDialog.setMessage("Initially, two cards are dealt for each hand. The point totals determine whether either hand gets a third card. The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, in which case the bank hand wins with no further draw.\n\n"
-                        +
-                        "Banker also stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card.\n\n"
-                        +
-                        "Specific can refer to the following figure:\n");
+                inputDialog.setMessage("The dealt cards rule can be summarized as the following figure:\n");
                 inputDialog.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override

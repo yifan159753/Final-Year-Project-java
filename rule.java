@@ -599,11 +599,12 @@ public class rule extends AppCompatActivity {
                 inputDialog.setTitle("Dealt cards rule");
                 inputDialog.setIcon(R.drawable.logo);
                 inputDialog.setView(v1);
-                inputDialog.setMessage("Initially, two cards are dealt for each hand. The point totals determine whether either hand gets a third card. The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, in which case the bank hand wins with no further draw.\n\n"
+                inputDialog.setMessage("The dealt cards rule can be summarized as the following figure:\n");
+                /*inputDialog.setMessage("Initially, two cards are dealt for each hand. The point totals determine whether either hand gets a third card. The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, in which case the bank hand wins with no further draw.\n\n"
                         +
                         "Banker also stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card.\n\n"
                         +
-                        "Specific can refer to the following figure:\n");
+                        "Specific can refer to the following figure:\n");*/
                 inputDialog.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override
