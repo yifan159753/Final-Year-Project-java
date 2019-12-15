@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,13 +41,15 @@ public class game extends AppCompatActivity {
     private int[] card = new int[7];
     private String[] cardcopy = new String[7];
     private int[] cardcolor = new int[7];
-    private Button yes,no;
+    private Button yes,no,reset,submit,chips1,chips2,chips3,chips4,chips5,chips6;
     private ImageView imageView1,imageView2,imageView3,imageView4,imageView5,imageView6;
-    private TextView question,chipsquestion;
+    private TextView question,chipsquestion,ans;
     private static String URL,checkurl;
     Session session;
     private String checkname,checkmark,checklevel;
-    private int win,wager;
+    private int win,wager,ansint=0;
+    private LinearLayout rulekuai1,rulekuai2,chipskuai;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +61,31 @@ public class game extends AppCompatActivity {
 
         yes = findViewById(R.id.gameyes);
         no = findViewById(R.id.gameno);
+        reset=findViewById(R.id.gamereset);
+        submit=findViewById(R.id.gamesubmit);
+        chips1=findViewById(R.id.gamechips1);
+        chips2=findViewById(R.id.gamechips2);
+        chips3=findViewById(R.id.gamechips3);
+        chips4=findViewById(R.id.gamechips4);
+        chips5=findViewById(R.id.gamechips5);
+        chips6=findViewById(R.id.gamechips6);
+
         question=findViewById(R.id.gamequestion);
         chipsquestion=findViewById(R.id.chipsquestion);
+        ans=findViewById(R.id.gamewagerans);
+
         imageView1 = findViewById(R.id.gamebanker1);
         imageView2 = findViewById(R.id.gamebanker2);
         imageView3 = findViewById(R.id.gamebanker3);
         imageView4 = findViewById(R.id.gameplayer1);
         imageView5 = findViewById(R.id.gameplayer2);
         imageView6 = findViewById(R.id.gameplayer3);
+
+        rulekuai1 = findViewById(R.id.rulekuai1);
+        rulekuai2 = findViewById(R.id.rulekuai2);
+        chipskuai = findViewById(R.id.chipskuai);
+
+
 
         session=new Session(this);
         HashMap<String,String> user=session.getUserDetail();
@@ -191,7 +211,18 @@ public class game extends AppCompatActivity {
                                 yes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        error();
+                                        correct();
+                                        submit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                if(ansint==wager){
+                                                    wintwoyes();
+                                                }
+                                                else {
+                                                    error();
+                                                }
+                                            }
+                                        });
                                     }
                                 });
                                 no.setOnClickListener(new View.OnClickListener() {
@@ -200,13 +231,48 @@ public class game extends AppCompatActivity {
                                         error();
                                     }
                                 });
+                            }
+                            else if ((card[1]+card[2])%10 < (card[4]+card[5])%10 && win==2) {
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        correct();
+                                        submit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
 
-
+                                                if(ansint==wager*0.95){
+                                                    wintwoyes();
+                                                }
+                                                else{
+                                                    error();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                no.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        error();
+                                    }
+                                });
+                            }
+                            else if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win==2 || (card[1]+card[2])%10 < (card[4]+card[5])%10 && win==1) {
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        error();
+                                    }
+                                });
+                                no.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        wintwono();
+                                    }
+                                });
                             }
 
-
-
-                            wintwo();
                         }
                     });
                 }
@@ -225,6 +291,7 @@ public class game extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                question.setText("Whether to payouts ?");
                                 winthree();
                             }
                         });
@@ -239,7 +306,7 @@ public class game extends AppCompatActivity {
                         no.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                wintwo();
+                                wintwono();
                             }
                         });
                         yes.setOnClickListener(new View.OnClickListener() {
@@ -318,6 +385,62 @@ public class game extends AppCompatActivity {
 
 
 
+        chips1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=5;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=15;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=25;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=100;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=500;
+                ans.setText(""+ansint);
+            }
+        });
+
+        chips6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint+=1000;
+                ans.setText(""+ansint);
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ansint=0;
+                ans.setText(""+ansint);
+            }
+        });
+
 
     }
 
@@ -337,6 +460,12 @@ public class game extends AppCompatActivity {
     }
 
 
+    private void correct(){
+        rulekuai1.setVisibility(View.GONE);
+        rulekuai2.setVisibility(View.GONE);
+        chipskuai.setVisibility(View.VISIBLE);
+        ans.setVisibility(View.VISIBLE);
+    }
 
 
     private void error() {
@@ -366,7 +495,63 @@ public class game extends AppCompatActivity {
 
     }
 
-    private void wintwo() {
+
+    private void wintwoyes(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(game.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("cardcopy1",cardcopy[1]);
+                params.put("cardcopy2",cardcopy[2]);
+                params.put("cardcopy3","  /");
+                params.put("cardcopy4",cardcopy[4]);
+                params.put("cardcopy5",cardcopy[5]);
+                params.put("cardcopy6","  /");
+                params.put("ansint",Integer.toString(ansint));
+                params.put("wager",Integer.toString(wager));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(game.this);
+        requestQueue.add(stringRequest);
+
+
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(game.this);
+        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setPositiveButton("next",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(game.this,game.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = inputDialog.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+
+
+    private void wintwono() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -392,7 +577,8 @@ public class game extends AppCompatActivity {
                 params.put("cardcopy4",cardcopy[4]);
                 params.put("cardcopy5",cardcopy[5]);
                 params.put("cardcopy6","  /");
-                params.put("name",checkname);
+                params.put("ansint",Integer.toString(0));
+                params.put("wager",Integer.toString(0));
                 return params;
             }
         };
