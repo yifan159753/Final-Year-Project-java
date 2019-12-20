@@ -145,10 +145,15 @@ public class game extends AppCompatActivity {
         Random();
 
 
-        if (win==1)
+        if (win<=4)
             chipsquestion.setText("player : "+wager);
-        else if (win==2)
+        else if (win<=8)
             chipsquestion.setText("banker : "+wager);
+        else if (win==9)
+            chipsquestion.setText("Tie : "+wager);
+        else if (win==10)
+            chipsquestion.setText("Pair : "+wager);
+
 
 
         final String[] variableValue = {"card"+cardcolor[1]+card[1],"card"+cardcolor[2]+card[2],"card"+cardcolor[3]+card[3],"card"+cardcolor[4]+card[4],"card"+cardcolor[5]+card[5],"card"+cardcolor[6]+card[6],};
@@ -207,7 +212,7 @@ public class game extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             question.setText("Whether to payouts ?");
-                            if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win==1) {
+                            if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win<=4) {
                                 yes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -232,7 +237,7 @@ public class game extends AppCompatActivity {
                                     }
                                 });
                             }
-                            else if ((card[1]+card[2])%10 < (card[4]+card[5])%10 && win==2) {
+                            else if ((card[1]+card[2])%10 < (card[4]+card[5])%10 && win>4 && win<=8) {
                                 yes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -258,7 +263,59 @@ public class game extends AppCompatActivity {
                                     }
                                 });
                             }
-                            else if (((card[1]+card[2])%10 > (card[4]+card[5])%10 && win==2) || ((card[1]+card[2])%10 < (card[4]+card[5])%10 && win==1)) {
+                            else if ((card[1]+card[2])%10 == (card[4]+card[5])%10 && win==9) {
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        correct();
+                                        submit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+
+                                                if(ansint==wager*8){
+                                                    wintwoyes();
+                                                }
+                                                else{
+                                                    error();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                no.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        error();
+                                    }
+                                });
+                            }
+                            else if ((cardcopy[1].equals(cardcopy[2]) || cardcopy[4].equals(cardcopy[5])) && win==10) {
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        correct();
+                                        submit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+
+                                                if(ansint==wager*11){
+                                                    wintwoyes();
+                                                }
+                                                else{
+                                                    error();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                no.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        error();
+                                    }
+                                });
+                            }
+                            else {
                                 yes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -292,7 +349,7 @@ public class game extends AppCompatActivity {
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 question.setText("Whether to payouts ?");
-                                if ((card[1]+card[2])%10 > (card[4]+card[5]+card[6])%10 && win==1){
+                                if ((card[1]+card[2])%10 > (card[4]+card[5]+card[6])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -316,9 +373,8 @@ public class game extends AppCompatActivity {
                                             error();
                                         }
                                     });
-
                                 }
-                                else if ((card[1]+card[2])%10 < (card[4]+card[5]+card[6])%10 && win==2){
+                                else if ((card[1]+card[2])%10 < (card[4]+card[5]+card[6])%10 && win>4 && win<=8){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -342,9 +398,58 @@ public class game extends AppCompatActivity {
                                             error();
                                         }
                                     });
-
                                 }
-                                else if (((card[1]+card[2])%10 > (card[4]+card[5]+card[6])%10 && win==2) || ((card[1]+card[2])%10 < (card[4]+card[5]+card[6])%10 && win==1)) {
+                                else if ((card[1]+card[2])%10 == (card[4]+card[5]+card[6])%10 && win==9){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*8){
+                                                        winthreeyes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+                                }
+                                else if ((cardcopy[1].equals(cardcopy[2]) || cardcopy[4].equals(cardcopy[5])) && win==10){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*11){
+                                                        winthreeyes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+                                }
+                                else {
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -373,7 +478,7 @@ public class game extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 question.setText("Whether to payouts ?");
-                                if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win==1){
+                                if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -397,9 +502,8 @@ public class game extends AppCompatActivity {
                                             error();
                                         }
                                     });
-
                                 }
-                                else if ((card[1]+card[2])%10 < (card[4]+card[5]+card[6])%10 && win==2){
+                                else if ((card[1]+card[2])%10 < (card[4]+card[5])%10 && win>4 && win<=8){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -423,9 +527,60 @@ public class game extends AppCompatActivity {
                                             error();
                                         }
                                     });
+                                }
+                                else if ((card[1]+card[2])%10 == (card[4]+card[5])%10 && win==9){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*8){
+                                                        wintwoyes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
 
                                 }
-                                else if (((card[1]+card[2])%10 > (card[4]+card[5]+card[6])%10 && win==2) || ((card[1]+card[2])%10 < (card[4]+card[5]+card[6])%10 && win==1)) {
+                                else if ((cardcopy[1].equals(cardcopy[2]) || cardcopy[4].equals(cardcopy[5])) && win==10){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*11){
+                                                        wintwoyes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+
+                                }
+                                else {
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -485,7 +640,7 @@ public class game extends AppCompatActivity {
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 question.setText("Whether to payouts ?");
-                                if ((card[1]+card[2]+card[3])%10 > (card[4]+card[5]+card[6])%10 && win==1){
+                                if ((card[1]+card[2]+card[3])%10 > (card[4]+card[5]+card[6])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -511,7 +666,7 @@ public class game extends AppCompatActivity {
                                     });
 
                                 }
-                                else if ((card[1]+card[2]+card[3])%10 < (card[4]+card[5]+card[6])%10 && win==2){
+                                else if ((card[1]+card[2]+card[3])%10 < (card[4]+card[5]+card[6])%10 && win>4 && win<=8){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -537,7 +692,59 @@ public class game extends AppCompatActivity {
                                     });
 
                                 }
-                                else if (((card[1]+card[2]+card[3])%10 > (card[4]+card[5]+card[6])%10 && win==2) || ((card[1]+card[2]+card[3])%10 < (card[4]+card[5]+card[6])%10 && win==1)) {
+                                else if ((card[1]+card[2]+card[3])%10 == (card[4]+card[5]+card[6])%10 && win==9){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*8){
+                                                        winfouryes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+
+                                }
+                                else if ((cardcopy[1].equals(cardcopy[2]) || cardcopy[4].equals(cardcopy[5])) && win==10){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*11){
+                                                        winfouryes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+
+                                }
+                                else {
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -571,7 +778,7 @@ public class game extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 question.setText("Whether to payouts ?");
-                                if ((card[1]+card[2]+card[3])%10 > (card[4]+card[5])%10 && win==1){
+                                if ((card[1]+card[2]+card[3])%10 > (card[4]+card[5])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -597,7 +804,7 @@ public class game extends AppCompatActivity {
                                     });
 
                                 }
-                                else if ((card[1]+card[2]+card[3])%10 < (card[4]+card[5])%10 && win==2){
+                                else if ((card[1]+card[2]+card[3])%10 < (card[4]+card[5])%10 && win>4 && win<=8){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -623,7 +830,59 @@ public class game extends AppCompatActivity {
                                     });
 
                                 }
-                                else if (((card[1]+card[2]+card[3])%10 > (card[4]+card[5])%10 && win==2) || ((card[1]+card[2])%10 < (card[4]+card[5]+card[6])%10 && win==1)) {
+                                else if ((card[1]+card[2]+card[3])%10 == (card[4]+card[5])%10 && win==9){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*8){
+                                                        winthreetwoyes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+
+                                }
+                                else if ((cardcopy[1].equals(cardcopy[2]) || cardcopy[4].equals(cardcopy[5])) && win==10){
+                                    yes.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            correct();
+                                            submit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(ansint==wager*11){
+                                                        winthreetwoyes();
+                                                    }
+                                                    else {
+                                                        error();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    no.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            error();
+                                        }
+                                    });
+
+                                }
+                                else {
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -718,7 +977,7 @@ public class game extends AppCompatActivity {
         for(int j=1;j<7;j++) {
             cardcolor[j] = random.nextInt(4)+1;
         }
-        win = (random.nextInt(2)+1);
+        win = (random.nextInt(10)+1);
         wager = (random.nextInt(98)+1)*100;
 
     }
@@ -1275,7 +1534,7 @@ public class game extends AppCompatActivity {
 
             case R.id.history:
                 Intent intent3 = new Intent();
-                intent3.setClass(game.this,historyrule.class);
+                intent3.setClass(game.this,historygame.class);
                 startActivity(intent3);
                 break;
             default:

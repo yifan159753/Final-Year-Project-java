@@ -18,7 +18,7 @@ public class Session {
     //private static final String LOGIN="IS_LOGIN";
     public static final String NAME=" ";
     public static final String URL="http://192.168.31.249/";
-    //public static final String URL="http://172.28.50.25/";
+    //public static final String URL="http://172.28.50.71/";
 
     public Session(Context context){
         this.context=context;

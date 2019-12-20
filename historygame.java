@@ -19,7 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,35 +30,36 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class historywagers extends AppCompatActivity {
+public class historygame extends AppCompatActivity {
 
     private static String URL,url,checkurl;
     Session session;
-    private String[] winner = new String[100];
+    private String[] banker = new String[100];
+    private String[] bankersecond = new String[100];
+    private String[] player = new String[100];
+    private String[] playersecond = new String[100];
     private String[] chips = new String[100];
     private String[] ans = new String[100];
-    private String[] username = new String[100];
-    private String[] time = new String[100];
     private int num;
-    private TableLayout wagertable;
+    private TableLayout ruletable;
     private String checkname,checkmark,checklevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_historywagers);
+        setContentView(R.layout.activity_historygame);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        wagertable= findViewById(R.id.wagertable);
+        ruletable= findViewById(R.id.gametable);
 
         session=new Session(this);
         HashMap<String,String> user=session.getUserDetail();
         url = user.get(Session.URL);
         checkname=user.get(Session.NAME);
 
-        URL= url +"historywagers.php";
+        URL= url +"historygame.php";
         checkurl= url +"checkid.php";
 
         check();
@@ -94,7 +94,7 @@ public class historywagers extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(historywagers.this, "error！" + error.toString(),
+                                Toast.makeText(historygame.this, "error！" + error.toString(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -107,13 +107,10 @@ public class historywagers extends AppCompatActivity {
                     }
                 };
 
-                RequestQueue requestQueue = Volley.newRequestQueue(historywagers.this);
+                RequestQueue requestQueue = Volley.newRequestQueue(historygame.this);
                 requestQueue.add(stringRequest);
-
             }
         });
-
-
     }
 
 
@@ -128,45 +125,52 @@ public class historywagers extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     num = Integer.parseInt(jsonObject.getString("num"));
                     for (int a=0;a<num;a++){
-                        winner[a]= jsonObject.getString("winner"+a);
+                        banker[a]= jsonObject.getString("banker"+a);
+                        bankersecond[a] = jsonObject.getString("bankersecond"+a);
+                        player[a] = jsonObject.getString("player"+a);
+                        playersecond[a] = jsonObject.getString("playersecond"+a);
                         chips[a]= jsonObject.getString("chips"+a);
                         ans[a] = jsonObject.getString("ans"+a);
-                        username[a] = jsonObject.getString("username"+a);
-                        time[a] = jsonObject.getString("time"+a);
-                        if (999==Integer.parseInt(time[a])) {
-                            time[a]=" - - - ";
+                        if (0==Integer.parseInt(ans[a])) {
+                            ans[a]=" - - - ";
+                            chips[a]=" - - - ";
                         }
 
-                        TableRow newRow = new TableRow(historywagers.this);
+                        TableRow newRow = new TableRow(historygame.this);
 
-                        TextView column0 = new TextView(historywagers.this);
-                        TextView column1 = new TextView(historywagers.this);
-                        TextView column2 = new TextView(historywagers.this);
-                        TextView column3 = new TextView(historywagers.this);
-                        TextView column4 = new TextView(historywagers.this);
+                        TextView column0 = new TextView(historygame.this);
+                        TextView column1 = new TextView(historygame.this);
+                        TextView column2 = new TextView(historygame.this);
+                        TextView column3 = new TextView(historygame.this);
+                        TextView column4 = new TextView(historygame.this);
+                        TextView column5 = new TextView(historygame.this);
 
-                        column0.setText(winner[a]);
+                        column0.setText(banker[a]);
                         column0.setGravity(Gravity.CENTER);
 
-                        column1.setText(chips[a]);
+                        column1.setText(bankersecond[a]);
                         column1.setGravity(Gravity.CENTER);
 
-                        column2.setText(ans[a]);
+                        column2.setText(player[a]);
                         column2.setGravity(Gravity.CENTER);
 
-                        column3.setText(username[a]);
+                        column3.setText(playersecond[a]);
                         column3.setGravity(Gravity.CENTER);
 
-                        column4.setText(time[a]);
+                        column4.setText(chips[a]);
                         column4.setGravity(Gravity.CENTER);
+
+                        column5.setText(ans[a]);
+                        column5.setGravity(Gravity.CENTER);
 
                         newRow.addView(column0);
                         newRow.addView(column1);
                         newRow.addView(column2);
                         newRow.addView(column3);
                         newRow.addView(column4);
+                        newRow.addView(column5);
 
-                        wagertable.addView(newRow, new TableLayout.LayoutParams());
+                        ruletable.addView(newRow, new TableLayout.LayoutParams());
                     }
 
 
@@ -180,7 +184,7 @@ public class historywagers extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(historywagers.this, "error！" + error.toString(),
+                        Toast.makeText(historygame.this, "error！" + error.toString(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -191,10 +195,12 @@ public class historywagers extends AppCompatActivity {
 
     }
 
+
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent();
-            intent.setClass(historywagers.this,wagers.class);
+            intent.setClass(historygame.this,game.class);
             startActivity(intent);
             return true;
         }

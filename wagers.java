@@ -41,10 +41,10 @@ import java.util.Random;
 public class wagers extends AppCompatActivity {
 
     Session session;
-    private String checkname,checkmark,checklevel;
+    private String checkname,checkmark,checklevel,winner;
     private static String URL,checkurl;
-    private int wager,ansint=0,time;
-    private TextView question,ans,textTimer;
+    private int wager,ansint=0,time,win;
+    private TextView value,question,ans,textTimer;
     private Button checkbutton,reset,prompt,chips1,chips2,chips3,chips4,chips5,chips6;
 
 
@@ -58,7 +58,7 @@ public class wagers extends AppCompatActivity {
 
         textTimer = findViewById(R.id.timer);
 
-
+        value=findViewById(R.id.wagervalue);
         question=findViewById(R.id.wagerquestion);
         ans=findViewById(R.id.wagerans);
         checkbutton=findViewById(R.id.submit);
@@ -140,7 +140,24 @@ public class wagers extends AppCompatActivity {
 
                     Random();
 
-                    question.setText(""+wager);
+                    value.setText(""+wager);
+                    if (win<=6){
+                        winner="Blanker";
+                        question.setText("Wins by betting on the Banker's hand, wagers calculation:");
+                    }
+                    else if (win<=8){
+                        winner="Player";
+                        question.setText("Wins by betting on the Player's hand, wagers calculation:");
+                    }
+                    else if (win==9){
+                        winner="Tie";
+                        question.setText("Wins by betting on the Tie, wagers calculation:");
+                    }
+                    else if (win==10){
+                        winner="Pair";
+                        question.setText("Wins by betting on the Pair, wagers calculation:");
+                    }
+
 
 
                     if (Integer.parseInt(checkmark) < 500){
@@ -150,8 +167,22 @@ public class wagers extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
 
-                                int r= (int) (wager*0.95);
-                                textTimer.setText("Answer tips: "+r  );
+                                if (win<=6){
+                                    int r= (int) (wager*0.95);
+                                    textTimer.setText("Answer tips: "+r  );
+                                }
+                                else if (win<=8){
+                                    int r= wager*1;
+                                    textTimer.setText("Answer tips: "+r  );
+                                }
+                                else if (win==9){
+                                    int r= wager*8;
+                                    textTimer.setText("Answer tips: "+r  );
+                                }
+                                else if (win==10){
+                                    int r= wager*11;
+                                    textTimer.setText("Answer tips: "+r  );
+                                }
 
                             }
                         });
@@ -221,8 +252,10 @@ public class wagers extends AppCompatActivity {
                         @Override
                         public void onClick(View v2) {
 
-                            if(ansint==wager*0.95){
-
+                            if((ansint==wager*0.95 && win<=6) ||
+                               (ansint==wager*1 && (win==7 || win==8)) ||
+                               (ansint==wager*8 && win==9) ||
+                               (ansint==wager*11 && win==10)){
 
                                 if (Integer.parseInt(checkmark) < 1000){
 
@@ -248,6 +281,7 @@ public class wagers extends AppCompatActivity {
                                             params.put("wager",Integer.toString(wager));
                                             params.put("name",checkname);
                                             params.put("time",Integer.toString(999));
+                                            params.put("winner",winner);
                                             return params;
                                         }
                                     };
@@ -282,6 +316,7 @@ public class wagers extends AppCompatActivity {
                                         params.put("wager",Integer.toString(wager));
                                         params.put("name",checkname);
                                         params.put("time",Integer.toString(time));
+                                        params.put("winner",winner);
                                         return params;
                                     }
                                 };
@@ -375,6 +410,7 @@ public class wagers extends AppCompatActivity {
     private void Random() {
         Random random=new Random();
         wager = (random.nextInt(98)+1)*100;
+        win = (random.nextInt(10)+1);
 
     }
 
