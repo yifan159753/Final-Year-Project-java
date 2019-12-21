@@ -2,6 +2,7 @@ package com.example.finalyearproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -314,15 +316,18 @@ public class rule extends AppCompatActivity {
 
 
 
-
     private void error() {
-        /*@setView 装入一个EditView
-         */
+
+        LayoutInflater factory=LayoutInflater.from(rule.this);
+        final View v1=factory.inflate(R.layout.wrong,null);
+        //@setView 装入一个EditView
+
         //final EditText editText = new EditText(rule.this);
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(rule.this);
         //inputDialog.setTitle("Sorry, the choice is wrong.").setView(editText);
-        inputDialog.setTitle("Sorry, the choice is wrong.");
+        //inputDialog.setTitle("Sorry, the choice is wrong.");
+        inputDialog.setView(v1);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -338,7 +343,10 @@ public class rule extends AppCompatActivity {
         AlertDialog dialog = inputDialog.create();
         //点击dialog之外的区域禁止取消dialog
         dialog.setCancelable(false);
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
 
     }
 
@@ -377,22 +385,27 @@ public class rule extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
+        LayoutInflater factory=LayoutInflater.from(rule.this);
+        final View win=factory.inflate(R.layout.plus20,null);
+
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(rule.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         Intent intent = new Intent();
                         intent.setClass(rule.this,rule.class);
                         startActivity(intent);
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -431,22 +444,27 @@ public class rule extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
+        LayoutInflater factory=LayoutInflater.from(rule.this);
+        final View win=factory.inflate(R.layout.plus20,null);
+
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(rule.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         Intent intent = new Intent();
                         intent.setClass(rule.this,rule.class);
                         startActivity(intent);
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -485,22 +503,27 @@ public class rule extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
+        LayoutInflater factory=LayoutInflater.from(rule.this);
+        final View win=factory.inflate(R.layout.plus20,null);
+
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(rule.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         Intent intent = new Intent();
                         intent.setClass(rule.this,rule.class);
                         startActivity(intent);
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -539,22 +562,27 @@ public class rule extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
 
+        LayoutInflater factory=LayoutInflater.from(rule.this);
+        final View win=factory.inflate(R.layout.plus20,null);
+
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(rule.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         Intent intent = new Intent();
                         intent.setClass(rule.this,rule.class);
                         startActivity(intent);
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 

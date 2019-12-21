@@ -16,13 +16,10 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.Gravity;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -33,15 +30,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logout,rule,wagers,game;
+    private Button logout,rule,wagers,game,leaderboard;
     Session session;
-    private static String checkurl,URL;
+    private static String checkurl;
     private String checkname,checkmark,checklevel;
-    private String[] username = new String[100];
-    private String[] mark = new String[100];
-    private String[] level = new String[100];
-    private int num;
-    private TableLayout t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +52,13 @@ public class MainActivity extends AppCompatActivity {
         rule=findViewById(R.id.rule);
         wagers=findViewById(R.id.wagers);
         game=findViewById(R.id.game);
-        t1= findViewById(R.id.table);
+        leaderboard=findViewById(R.id.leaderboard);
 
         HashMap<String,String> user=session.getUserDetail();
         checkname=user.get(session.NAME);
         String url = user.get(Session.URL);
 
         checkurl= url +"checkid.php";
-        URL= url +"leaderboard.php";
-
-
-        check();
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -155,77 +143,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
 
-
-    }
-
-
-
-    public void check(){
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        leaderboard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(String response) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    num = Integer.parseInt(jsonObject.getString("num"));
-                    for (int a=0;a<num;a++){
-                        username[a]= jsonObject.getString("username"+a);
-                        mark[a] = jsonObject.getString("mark"+a);
-                        level[a] = jsonObject.getString("level"+a);
-
-                        TableRow newRow = new TableRow(MainActivity.this);
-
-                        TextView column0 = new TextView(MainActivity.this);
-                        TextView column1 = new TextView(MainActivity.this);
-                        TextView column2 = new TextView(MainActivity.this);
-                        TextView column3 = new TextView(MainActivity.this);
-
-                        column0.setText(a+1+"");
-                        column0.setGravity(Gravity.CENTER);
-                        //column0.setTextSize(20);
-
-                        column1.setText(username[a]);
-                        column1.setGravity(Gravity.CENTER);
-
-                        column2.setText(mark[a]);
-                        column2.setGravity(Gravity.CENTER);
-
-                        column3.setText(level[a]);
-                        column3.setGravity(Gravity.CENTER);
-
-                        newRow.addView(column0);
-                        newRow.addView(column1);
-                        newRow.addView(column2);
-                        newRow.addView(column3);
-
-                        t1.addView(newRow, new TableLayout.LayoutParams());
-                    }
-
-
-                }
-                catch (JSONException e){
-                    e.printStackTrace();
-                }
-
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,leaderboard.class);
+                startActivity(intent);
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "error！" + error.toString(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        });
 
 
 
     }
+
 
 
 
