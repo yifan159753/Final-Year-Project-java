@@ -2,6 +2,7 @@ package com.example.finalyearproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +45,7 @@ public class game extends AppCompatActivity {
     private int[] cardcolor = new int[7];
     private Button yes,no,reset,submit,chips1,chips2,chips3,chips4,chips5,chips6;
     private ImageView imageView1,imageView2,imageView3,imageView4,imageView5,imageView6;
-    private TextView question,chipsquestion,ans;
+    private TextView question,ans,chipsquestion1,chipsquestion2,chipsquestion3,chipsquestion4,chipsquestion5;
     private static String URL,checkurl;
     Session session;
     private String checkname,checkmark,checklevel;
@@ -71,7 +73,11 @@ public class game extends AppCompatActivity {
         chips6=findViewById(R.id.gamechips6);
 
         question=findViewById(R.id.gamequestion);
-        chipsquestion=findViewById(R.id.chipsquestion);
+        chipsquestion1=findViewById(R.id.chipsquestion1);
+        chipsquestion2=findViewById(R.id.chipsquestion2);
+        chipsquestion3=findViewById(R.id.chipsquestion3);
+        chipsquestion4=findViewById(R.id.chipsquestion4);
+        chipsquestion5=findViewById(R.id.chipsquestion5);
         ans=findViewById(R.id.gamewagerans);
 
         imageView1 = findViewById(R.id.gamebanker1);
@@ -145,16 +151,26 @@ public class game extends AppCompatActivity {
         Random();
 
 
-        if (win<=4)
-            chipsquestion.setText("player : "+wager);
-        else if (win<=8)
-            chipsquestion.setText("banker : "+wager);
-        else if (win==9)
-            chipsquestion.setText("Tie : "+wager);
-        else if (win==10)
-            chipsquestion.setText("Player Pair : "+wager);
-        else if (win==11)
-            chipsquestion.setText("Banker Pair : "+wager);
+        if (win<=4){
+            chipsquestion4.setText(""+wager);
+            chipsquestion4.setVisibility(View.VISIBLE);
+        }
+        else if (win<=8){
+            chipsquestion3.setText(""+wager);
+            chipsquestion3.setVisibility(View.VISIBLE);
+        }
+        else if (win==9){
+            chipsquestion2.setText(""+wager);
+            chipsquestion2.setVisibility(View.VISIBLE);
+        }
+        else if (win==10){
+            chipsquestion5.setText(""+wager);
+            chipsquestion5.setVisibility(View.VISIBLE);
+        }
+        else if (win==11){
+            chipsquestion1.setText(""+wager);
+            chipsquestion1.setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -1115,7 +1131,7 @@ public class game extends AppCompatActivity {
 
 
     private void correct(){
-        //rulekuai1.setVisibility(View.GONE);
+        rulekuai1.setVisibility(View.GONE);
         rulekuai2.setVisibility(View.GONE);
         chipskuai.setVisibility(View.VISIBLE);
         ans.setVisibility(View.VISIBLE);
@@ -1123,13 +1139,12 @@ public class game extends AppCompatActivity {
 
 
     private void error() {
-        /*@setView 装入一个EditView
-         */
-        //final EditText editText = new EditText(rule.this);
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View v1=factory.inflate(R.layout.wrong,null);
+
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        //inputDialog.setTitle("Sorry, the choice is wrong.").setView(editText);
-        inputDialog.setTitle("Sorry, the choice is wrong.");
+        inputDialog.setView(v1);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1145,7 +1160,10 @@ public class game extends AppCompatActivity {
         AlertDialog dialog = inputDialog.create();
         //点击dialog之外的区域禁止取消dialog
         dialog.setCancelable(false);
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
 
     }
 
@@ -1185,10 +1203,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(game.this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1200,8 +1220,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -1242,10 +1265,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1257,8 +1282,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -1298,10 +1326,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1313,8 +1343,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
     private void winthreeno() {
@@ -1353,10 +1386,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1368,8 +1403,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -1409,10 +1447,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1424,8 +1464,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
     private void winthreetwono() {
@@ -1464,10 +1507,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1479,8 +1524,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
@@ -1520,10 +1568,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1535,8 +1585,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
     private void winfourno() {
@@ -1575,10 +1628,12 @@ public class game extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
+        LayoutInflater factory=LayoutInflater.from(game.this);
+        final View win=factory.inflate(R.layout.plus50,null);
 
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(game.this);
-        inputDialog.setTitle("winnnnnn.");
+        inputDialog.setView(win);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1590,8 +1645,11 @@ public class game extends AppCompatActivity {
                     }
                 });
         AlertDialog dialog = inputDialog.create();
+        final Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(0));
         dialog.setCancelable(false);
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
     }
 
 
