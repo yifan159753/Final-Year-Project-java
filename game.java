@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -51,6 +53,7 @@ public class game extends AppCompatActivity {
     private String checkname,checkmark,checklevel;
     private int win,wager,ansint=0;
     private LinearLayout rulekuai1,rulekuai2,chipskuai;
+    private TextToSpeech textToSpeech;
 
 
     @Override
@@ -91,7 +94,16 @@ public class game extends AppCompatActivity {
         rulekuai2 = findViewById(R.id.rulekuai2);
         chipskuai = findViewById(R.id.chipskuai);
 
-
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    Toast.makeText(game.this, "初始化失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         session=new Session(this);
         HashMap<String,String> user=session.getUserDetail();
@@ -220,6 +232,7 @@ public class game extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     question.setText("Do banker need to draws a third card ?");
+                    textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                     yes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -230,6 +243,7 @@ public class game extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             question.setText("Whether to payouts ?");
+                            textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                             if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win<=4) {
                                 yes.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -387,12 +401,14 @@ public class game extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     question.setText("Do banker need to draws a third card ?");
+                    textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                     if((card[4]+card[5])%10<6){
                         yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 question.setText("Whether to payouts ?");
+                                textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                                 if ((card[1]+card[2])%10 > (card[4]+card[5]+card[6])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -547,6 +563,7 @@ public class game extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 question.setText("Whether to payouts ?");
+                                textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                                 if ((card[1]+card[2])%10 > (card[4]+card[5])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -724,6 +741,7 @@ public class game extends AppCompatActivity {
                 public void onClick(View view) {
                     imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
                     question.setText("Do banker need to draws a third card ?");
+                    textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                     if(     ((card[4]+card[5])%10<3)||
                             ((card[4]+card[5])%10==3&&card[3]!=8)||
                             ((card[4]+card[5])%10==4&&(card[3]!=0&&card[3]!=1&&card[3]!=8&&card[3]!=9))||
@@ -735,6 +753,7 @@ public class game extends AppCompatActivity {
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 question.setText("Whether to payouts ?");
+                                textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                                 if ((card[1]+card[2]+card[3])%10 > (card[4]+card[5]+card[6])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -899,6 +918,7 @@ public class game extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 question.setText("Whether to payouts ?");
+                                textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                                 if ((card[1]+card[2]+card[3])%10 > (card[4]+card[5])%10 && win<=4){
                                     yes.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -1113,7 +1133,6 @@ public class game extends AppCompatActivity {
 
 
     }
-
 
 
     private void Random() {
@@ -1731,6 +1750,12 @@ public class game extends AppCompatActivity {
         return true;
     }
 
+
+    protected void onStop() {
+        super.onStop();
+        textToSpeech.stop(); // 不管是否正在朗读TTS都被打断
+        textToSpeech.shutdown(); // 关闭，释放资源
+    }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

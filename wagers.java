@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class wagers extends AppCompatActivity {
     private int wager,ansint=0,time,win;
     private TextView value,question,ans,textTimer;
     private Button checkbutton,reset,prompt,chips1,chips2,chips3,chips4,chips5,chips6;
+    private LinearLayout wagerstime;
 
 
     @Override
@@ -71,6 +73,7 @@ public class wagers extends AppCompatActivity {
         chips5=findViewById(R.id.chips5);
         chips6=findViewById(R.id.chips6);
 
+        wagerstime=findViewById(R.id.wagerstime);
 
 
         session=new Session(this);
@@ -105,11 +108,13 @@ public class wagers extends AppCompatActivity {
 
                     if (Integer.parseInt(checkmark) >= 1000){
 
+                        wagerstime.setVisibility(View.VISIBLE);
+
                         new CountDownTimer(60000, 1000) {
 
                             public void onTick(long millisUntilFinished) {
                                 time=60-(int) millisUntilFinished / 1000;
-                                textTimer.setText("Seconds Remaining: " + (millisUntilFinished / 1000) );
+                                textTimer.setText((millisUntilFinished / 1000) + " s " );
                             }
 
                             public void onFinish() {
