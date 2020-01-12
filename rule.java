@@ -48,6 +48,8 @@ public class rule extends AppCompatActivity {
     private static String URL,checkurl;
     Session session;
     private String checkname,checkmark,checklevel;
+    private View v1;
+    private int errorcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +171,7 @@ public class rule extends AppCompatActivity {
             yes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    error();
+                    errorcode=8;error();
                 }
             });
             no.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +181,7 @@ public class rule extends AppCompatActivity {
                     yes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            error();
+                            errorcode=8;error();
                         }
                     });
                     no.setOnClickListener(new View.OnClickListener() {
@@ -210,7 +212,7 @@ public class rule extends AppCompatActivity {
                         no.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                error();
+                                errorcode=26;error();
                             }
                         });
                     }
@@ -224,7 +226,7 @@ public class rule extends AppCompatActivity {
                         yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                error();
+                                errorcode=27;error();
                             }
                         });
                     }
@@ -234,7 +236,7 @@ public class rule extends AppCompatActivity {
             yes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    error();
+                    errorcode=261;error();
                 }
             });
 
@@ -245,7 +247,7 @@ public class rule extends AppCompatActivity {
             no.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    error();
+                    errorcode=21;error();
                 }
             });
 
@@ -254,6 +256,141 @@ public class rule extends AppCompatActivity {
                 public void onClick(View view) {
                     imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
                     question.setText("Do banker need to draws a third card ?");
+                    if ((card[4]+card[5])%10<3){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winfour();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=12;error();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==3&&card[3]!=8){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winfour();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=13;error();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==3&&card[3]==8){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=13;error();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                winthreetwo();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==4&&(card[3]!=0&&card[3]!=1&&card[3]!=8&&card[3]!=9)){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winfour();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=14;error();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==4&&(card[3]==0||card[3]==1||card[3]==8||card[3]==9)){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=14;error();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                winthreetwo();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==5&&(card[3]!=0&&card[3]!=1&&card[3]!=2&&card[3]!=3&&card[3]!=8&&card[3]!=9)){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winfour();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=15;error();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==5&&(card[3]!=4&&card[3]!=5&&card[3]!=6&&card[3]!=7)){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=15;error();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                winthreetwo();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==6&&(card[3]==6||card[3]==7)){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                winfour();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=16;error();
+                            }
+                        });
+                    }
+                    else if ((card[4]+card[5])%10==6&&(card[3]!=6&&card[3]!=7)){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=16;error();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                winthreetwo();
+                            }
+                        });
+                    }
+
+
+
+                    /*
                     if(     ((card[4]+card[5])%10<3)||
                             ((card[4]+card[5])%10==3&&card[3]!=8)||
                             ((card[4]+card[5])%10==4&&(card[3]!=0&&card[3]!=1&&card[3]!=8&&card[3]!=9))||
@@ -287,7 +424,7 @@ public class rule extends AppCompatActivity {
                                 winthreetwo();
                             }
                         });
-                    }
+                    }*/
 
 
                 }
@@ -319,7 +456,36 @@ public class rule extends AppCompatActivity {
     private void error() {
 
         LayoutInflater factory=LayoutInflater.from(rule.this);
-        final View v1=factory.inflate(R.layout.wrong,null);
+        if (errorcode==8){ //Natural(8 or 9)
+            v1=factory.inflate(R.layout.error8,null);
+        }
+        else if (errorcode==261){ //Player stands on 6 or 7
+            v1=factory.inflate(R.layout.error261,null);
+        }
+        else if (errorcode==27){ //Banker stands unless Player Draws 6 or 7
+            v1=factory.inflate(R.layout.error27,null);
+        }
+        else if (errorcode==26){ //Banker's hand are not 7,8,9, needs a 3rd card
+            v1=factory.inflate(R.layout.error26,null);
+        }
+        else if (errorcode==21){ //Player's hand are not 6,7,8,9, needs a 3rd card
+            v1=factory.inflate(R.layout.error21,null);
+        }
+        else if (errorcode==12){ //Banker's hand is smaller than 3, needs a 3rd card
+            v1=factory.inflate(R.layout.error12,null);
+        }
+        else if (errorcode==13){ //Banker stand unless Player draws 1,2,3,4,5,6,7
+            v1=factory.inflate(R.layout.error13,null);
+        }
+        else if (errorcode==14){ //Banker stand unless Player draws 2,3,4,5,6,7
+            v1=factory.inflate(R.layout.error14,null);
+        }
+        else if (errorcode==15){ //Banker stand unless Player draws 4,5,6,7
+            v1=factory.inflate(R.layout.error15,null);
+        }
+        else if (errorcode==16){ //Banker stand unless Player draws 6,7
+            v1=factory.inflate(R.layout.error16,null);
+        }
         //@setView 装入一个EditView
 
         //final EditText editText = new EditText(rule.this);
@@ -328,6 +494,7 @@ public class rule extends AppCompatActivity {
         //inputDialog.setTitle("Sorry, the choice is wrong.").setView(editText);
         //inputDialog.setTitle("Sorry, the choice is wrong.");
         inputDialog.setView(v1);
+        //inputDialog.setMessage("aaaa\n\n\n\n\n\n"+errorcode);
         inputDialog.setPositiveButton("next",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -349,6 +516,7 @@ public class rule extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
 
     }
+
 
     private void wintwo() {
 

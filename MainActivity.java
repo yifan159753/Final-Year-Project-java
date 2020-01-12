@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logout,rule,wagers,game,leaderboard;
+    private Button logout,rule,wagers,game,leaderboard,introduction;
     Session session;
     private static String checkurl;
     private String checkname,checkmark,checklevel;
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         wagers=findViewById(R.id.wagers);
         game=findViewById(R.id.game);
         leaderboard=findViewById(R.id.leaderboard);
+        introduction=findViewById(R.id.introduction);
 
         HashMap<String,String> user=session.getUserDetail();
         checkname=user.get(session.NAME);
@@ -153,6 +154,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        introduction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,introduction.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

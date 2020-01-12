@@ -48,6 +48,7 @@ public class wagers extends AppCompatActivity {
     private TextView value,question,ans,textTimer;
     private Button checkbutton,reset,prompt,chips1,chips2,chips3,chips4,chips5,chips6;
     private LinearLayout wagerstime;
+    private View v1;
 
 
     @Override
@@ -358,7 +359,18 @@ public class wagers extends AppCompatActivity {
 
                             }else{
                                 LayoutInflater factory=LayoutInflater.from(wagers.this);
-                                final View v1=factory.inflate(R.layout.wrong,null);
+                                if (win<=6){
+                                    v1=factory.inflate(R.layout.errorwagers6,null);
+                                }
+                                else if (win==7 || win==8){
+                                    v1=factory.inflate(R.layout.errorwagers7,null);
+                                }
+                                else if (win==9){
+                                    v1=factory.inflate(R.layout.errorwagers9,null);
+                                }
+                                else if (win==10){
+                                    v1=factory.inflate(R.layout.errorwagers10,null);
+                                }
 
                                 AlertDialog.Builder inputDialog =
                                         new AlertDialog.Builder(wagers.this);
