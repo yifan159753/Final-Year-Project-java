@@ -97,13 +97,91 @@ public class introduction extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                LayoutInflater factory=LayoutInflater.from(introduction.this);
-                final View v1=factory.inflate(R.layout.dealt_card_rules,null);
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(introduction.this);
+                inputDialog.setMessage("Two cards are dealt for each hand. The point totals determine whether either hand gets a third card. " +
+                        "The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. In fact, " +
+                        "unless the banker has a natural 9 or ties the natural 8, no further cards are drawn, and the naturals are automatic winners. " +
+                        "Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, " +
+                        "in which case the bank hand wins with no further draw.\n").show();
+
+            }
+        });
+
+        bankercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
 
                 AlertDialog.Builder inputDialog =
                         new AlertDialog.Builder(introduction.this);
-                inputDialog.setView(v1);
-                inputDialog.setMessage("The dealt cards rule can be summarized as the following figure:\n").show();
+                inputDialog.setMessage("Banker stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card:\n" +
+                        "\nWhen the banker's hands is 3, banker stands unless the player's third card is not 8; \n" +
+                        "When the banker's hands is 4, banker stands unless the player's third card is 2-3-4-5-6-7;\n" +
+                        "When the banker's hands is 5, banker stands unless the player's third card is 4-5-6-7;\n" +
+                        "When the banker's hands is 6, banker stands unless the player's third card is 6-7;\n" +
+                        "If the player has one of its other two standing hands, 6 or 7, banker stands on 6 as well as 7, 8, and 9.\n" +
+                        "\nNeither hand ever gets more than three cards. After the hands have been played out, the hand totaling closer to 9 wins. ").show();
+
+            }
+        });
+
+        box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(introduction.this);
+                inputDialog.setMessage("Use 8 decks of 52 cards each.\n" +
+                        "\nAt the beginning, dealer shuffled the cards first, then a bettor cut the cards or dealer cut the cards himself, inserted the white card above at least about twelve cards at the end, and put the entire set of shuffled cards In the distribution card box, all the cards face down.\n" +
+                        "\nDealer chooses how many cards should be removes based on the point of cards on the first card, and then starting to distribute cards.\n" +
+                        "\nWhen the hand is dealt to the white card, it is the last round or only one round can be played.  Taking out the white card and after the game is over, change a new set of cards.\n" +
+                        "\nJ, Q, K, 10 and the total of ten points are all set to zero.  Other cards are calculated based on the points on the card, and the card with 9 points is the maximum card.\n" +
+                        "\nAt the beginning, starting from the \"Player\", the cards are distributed one at a time, and each hand distributes two cards.\n").show();
+
+            }
+        });
+
+        pair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(introduction.this);
+                inputDialog.setMessage("When the first 2 cards are the same and a participant wins by Pair Bet, participant wins 11 times the betting amount.\n").show();
+
+            }
+        });
+
+        tie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(introduction.this);
+                inputDialog.setMessage("When the sums of the banker’s hand and the player’s hand are the same, If a participant wins by betting a tie wager, participant wins 8 times the betting amount. \n").show();
+
+            }
+        });
+
+        player.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(introduction.this);
+                inputDialog.setMessage("When the player's hand is larger than the banker's hand, If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount.\n").show();
+
+            }
+        });
+
+        banker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(introduction.this);
+                inputDialog.setMessage("When the banker's hand is larger than the player's hand, If a participant wins by betting on the hand of the “banker”, participant wins 1 times the betting amount, but 5% commission is deducted from the winning amount.\n").show();
 
             }
         });
@@ -171,7 +249,8 @@ public class introduction extends AppCompatActivity {
                 inputDialog2.setTitle("Wager calculation rule");
                 inputDialog2.setIcon(R.drawable.logo);
                 inputDialog2.setMessage("- The winner takes the betting amount.\n"+
-                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
+                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
                         "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
                         "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
                         "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +

@@ -1,15 +1,13 @@
 package com.example.finalyearproject.ui.login;
 
-import android.app.Activity;
-
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
@@ -33,8 +31,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.finalyearproject.MainActivity;
 import com.example.finalyearproject.R;
 import com.example.finalyearproject.Session;
-import com.example.finalyearproject.ui.login.LoginViewModel;
-import com.example.finalyearproject.ui.login.LoginViewModelFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     else if (success.equals("2")){
+                        finish();
                         Intent intent = new Intent();
                         intent.setClass(LoginActivity.this,LoginActivity.class);//this前面为当前activty名称，class前面为要跳转到得activity名称
                         startActivity(intent);
@@ -216,7 +213,6 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
 
 
 

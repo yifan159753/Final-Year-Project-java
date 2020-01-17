@@ -1,5 +1,6 @@
 package com.example.finalyearproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -130,9 +132,28 @@ public class MainActivity extends AppCompatActivity {
         wagers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,wagers.class);
-                startActivity(intent);
+
+                AlertDialog.Builder inputDialog2 =
+                        new AlertDialog.Builder(MainActivity.this);
+                inputDialog2.setTitle("Wager calculation rule");
+                inputDialog2.setIcon(R.drawable.logo);
+                inputDialog2.setMessage("- The winner takes the betting amount.\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
+                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
+                        "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
+                        "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
+                        "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
+                        "(Pair: when the first 2 cards are the same)\n");
+                inputDialog2.setPositiveButton("continue",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setClass(MainActivity.this,wagers.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+
             }
         });
 

@@ -45,7 +45,7 @@ public class wagers extends AppCompatActivity {
     private String checkname,checkmark,checklevel,winner;
     private static String URL,checkurl;
     private int wager,ansint=0,time,win;
-    private TextView value,question,ans,textTimer;
+    private TextView value,question,ans,textTimer,prompttext;
     private Button checkbutton,reset,prompt,chips1,chips2,chips3,chips4,chips5,chips6;
     private LinearLayout wagerstime;
     private View v1;
@@ -60,7 +60,7 @@ public class wagers extends AppCompatActivity {
 
 
         textTimer = findViewById(R.id.timer);
-
+        prompttext = findViewById(R.id.prompttext);
         value=findViewById(R.id.wagervalue);
         question=findViewById(R.id.wagerquestion);
         ans=findViewById(R.id.wagerans);
@@ -168,6 +168,7 @@ public class wagers extends AppCompatActivity {
 
                     if (Integer.parseInt(checkmark) < 500){
 
+                        prompttext.setVisibility(View.VISIBLE);
                         prompt.setVisibility(View.VISIBLE);
                         prompt.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -175,19 +176,19 @@ public class wagers extends AppCompatActivity {
 
                                 if (win<=6){
                                     int r= (int) (wager*0.95);
-                                    textTimer.setText("Answer tips: "+r  );
+                                    prompttext.setText("Answer tips: "+r  );
                                 }
                                 else if (win<=8){
                                     int r= wager*1;
-                                    textTimer.setText("Answer tips: "+r  );
+                                    prompttext.setText("Answer tips: "+r  );
                                 }
                                 else if (win==9){
                                     int r= wager*8;
-                                    textTimer.setText("Answer tips: "+r  );
+                                    prompttext.setText("Answer tips: "+r  );
                                 }
                                 else if (win==10){
                                     int r= wager*11;
-                                    textTimer.setText("Answer tips: "+r  );
+                                    prompttext.setText("Answer tips: "+r  );
                                 }
 
                             }
@@ -498,7 +499,8 @@ public class wagers extends AppCompatActivity {
                 inputDialog2.setTitle("Wager calculation rule");
                 inputDialog2.setIcon(R.drawable.logo);
                 inputDialog2.setMessage("- The winner takes the betting amount.\n"+
-                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
+                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
                         "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
                         "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
                         "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +

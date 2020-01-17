@@ -1727,7 +1727,8 @@ public class game extends AppCompatActivity {
                 inputDialog2.setTitle("Wager calculation rule");
                 inputDialog2.setIcon(R.drawable.logo);
                 inputDialog2.setMessage("- The winner takes the betting amount.\n"+
-                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
+                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
                         "- If a participant wins by betting a tie wager, he/she wins 8 times the betting amount.\n"+
                         "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
                         "- If a participant wins by Pair Bet, he/she wins 11 times the betting amount. (Pair: when the first 2 cards are the same)\n");

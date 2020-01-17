@@ -387,6 +387,20 @@ public class rule extends AppCompatActivity {
                             }
                         });
                     }
+                    else if ((card[4]+card[5])%10==7){
+                        yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                errorcode=17;error();
+                            }
+                        });
+                        no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                winthreetwo();
+                            }
+                        });
+                    }
 
 
 
@@ -462,7 +476,7 @@ public class rule extends AppCompatActivity {
         else if (errorcode==261){ //Player stands on 6 or 7
             v1=factory.inflate(R.layout.error261,null);
         }
-        else if (errorcode==27){ //Banker stands unless Player Draws 6 or 7
+        else if (errorcode==27){ //Banker's hand and Player's hand both 6 or 7
             v1=factory.inflate(R.layout.error27,null);
         }
         else if (errorcode==26){ //Banker's hand are not 7,8,9, needs a 3rd card
@@ -485,6 +499,9 @@ public class rule extends AppCompatActivity {
         }
         else if (errorcode==16){ //Banker stand unless Player draws 6,7
             v1=factory.inflate(R.layout.error16,null);
+        }
+        else if (errorcode==17){ //Banker stand unless Player draws 6,7
+            v1=factory.inflate(R.layout.error17,null);
         }
         //@setView 装入一个EditView
 
@@ -510,8 +527,8 @@ public class rule extends AppCompatActivity {
         AlertDialog dialog = inputDialog.create();
         //点击dialog之外的区域禁止取消dialog
         dialog.setCancelable(false);
-        final Window window = dialog.getWindow();
-        window.setBackgroundDrawable(new ColorDrawable(0));
+        final Window window = dialog.getWindow();//透明化
+        window.setBackgroundDrawable(new ColorDrawable(0));//透明化
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
 
@@ -817,7 +834,8 @@ public class rule extends AppCompatActivity {
                 inputDialog2.setTitle("Wager calculation rule");
                 inputDialog2.setIcon(R.drawable.logo);
                 inputDialog2.setMessage("- The winner takes the betting amount.\n"+
-                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
+                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
                         "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
                         "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
                         "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
