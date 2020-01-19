@@ -115,12 +115,12 @@ public class introduction extends AppCompatActivity {
 
                 AlertDialog.Builder inputDialog =
                         new AlertDialog.Builder(introduction.this);
-                inputDialog.setMessage("Banker stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card:\n" +
+                inputDialog.setMessage("Banker stands on 7, 8 or 9 and draws on 0, 1 or 2, but on other hands the banker's play is dependent on the value of the player's third card:\n" +
                         "\nWhen the banker's hands is 3, banker stands unless the player's third card is not 8; \n" +
                         "When the banker's hands is 4, banker stands unless the player's third card is 2-3-4-5-6-7;\n" +
                         "When the banker's hands is 5, banker stands unless the player's third card is 4-5-6-7;\n" +
                         "When the banker's hands is 6, banker stands unless the player's third card is 6-7;\n" +
-                        "If the player has one of its other two standing hands, 6 or 7, banker stands on 6 as well as 7, 8, and 9.\n" +
+                        "If the player has one of its other two standing hands, 6 or 7, banker stands on 6 as well as 7, 8 and 9.\n" +
                         "\nNeither hand ever gets more than three cards. After the hands have been played out, the hand totaling closer to 9 wins. ").show();
 
             }
