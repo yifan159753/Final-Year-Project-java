@@ -1,7 +1,12 @@
 package com.example.finalyearproject;
 
+import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -20,7 +25,9 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -160,9 +167,38 @@ public class MainActivity extends AppCompatActivity {
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,game.class);
-                startActivity(intent);
+
+                LayoutInflater factory=LayoutInflater.from(MainActivity.this);
+                final View v1=factory.inflate(R.layout.game,null);
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(MainActivity.this);
+                inputDialog.setView(v1);
+
+
+                Button btn = (Button) v1.findViewById(R.id.go_to_question);
+                Button btn2 = (Button) v1.findViewById(R.id.go_to_baccarat);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,question.class);
+                        startActivity(intent);
+                    }
+                });
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,game.class);
+                        startActivity(intent);
+                    }
+                });
+                AlertDialog dialog = inputDialog.create();
+                final Window window = dialog.getWindow();
+                window.setBackgroundDrawable(new ColorDrawable(0));
+                dialog.show();
+
             }
         });
 
@@ -186,8 +222,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

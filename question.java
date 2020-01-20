@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +30,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,17 +40,23 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class question extends AppCompatActivity {
 
     Session session;
     private String checkname,checkmark,checklevel;
-    private static String URL,checkurl;
+    private static String URL,URL2,checkurl;
     private Button correct,incorrect,question_next;
     private TextView question_question,question_prompt,question_no;
     private ImageView correctimage,incorrectimage,plus5;
-    private ObjectAnimator Animator,Animator2;
+    private int no,frequency=1;
 
+    private String[] No = new String[100];
+    private String[] question = new String[100];
+    private String[] ans = new String[100];
+    private String[] prompt = new String[100];
+    private String[] check = new  String[11];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +81,8 @@ public class question extends AppCompatActivity {
         String url = user.get(Session.URL);
 
         checkurl= url +"checkid.php";
-        URL= url +"question.php";
+        URL=url +"checkquestion.php";
+        URL2= url +"question.php";
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,14 +134,165 @@ public class question extends AppCompatActivity {
             }
         });
 
-        /*
-        Animator = ObjectAnimator.ofFloat(question_next,"translationX",-50,50);
-        Animator.setRepeatCount(-1);
-        Animator.setDuration(2000);
-        Animator.start();
-        */
 
-        question1();
+
+        StringRequest stringRequest2 = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    final int num = Integer.parseInt(jsonObject.getString("num"));
+                    for (int a=0;a<num;a++){
+                        No[a]= jsonObject.getString("No"+a);
+                        question[a] = jsonObject.getString("question"+a);
+                        ans[a] = jsonObject.getString("ans"+a);
+                        prompt[a] = jsonObject.getString("prompt"+a);
+                    }
+
+                    Random random=new Random();
+                    no = random.nextInt(num);
+                    check[frequency]=No[no];
+                    question_question.setText(""+question[no]);
+
+                    correct.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            correct.setEnabled(false);
+                            incorrect.setEnabled(false);
+                            if (ans[no].equals("error")){
+                                incorrectimage.setVisibility(View.VISIBLE);
+                            }
+                            else{
+                                plus();
+                            }
+                            question_prompt.setText(""+prompt[no]);
+                        }
+                    });
+
+                    incorrect.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            correct.setEnabled(false);
+                            incorrect.setEnabled(false);
+                            if (ans[no].equals("correct")){
+                                incorrectimage.setVisibility(View.VISIBLE);
+                            }
+                            else{
+                                plus();
+                            }
+                            question_prompt.setText(""+prompt[no]);
+                        }
+                    });
+
+                    question_next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if (frequency==8){
+                                LayoutInflater factory=LayoutInflater.from(question.this);
+                                final View win=factory.inflate(R.layout.finish,null);
+
+                                AlertDialog.Builder inputDialog =
+                                        new AlertDialog.Builder(question.this);
+                                inputDialog.setView(win);
+                                inputDialog.setPositiveButton("next",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent();
+                                                intent.setClass(question.this,question.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                AlertDialog dialog = inputDialog.create();
+                                final Window window = dialog.getWindow();
+                                window.setBackgroundDrawable(new ColorDrawable(0));
+                                dialog.setCancelable(false);
+                                dialog.show();
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+                            }
+                            else {
+
+                                frequency+=1;
+                                question_no.setText(frequency+"/8");
+                                begin();
+
+                                Random random=new Random();
+                                no = random.nextInt(num);
+
+                                for (int a=1;a<=frequency;a++){
+                                    if (No[no]==check[a]){
+                                        no = random.nextInt(num);
+                                        a=1;
+                                    }
+                                }
+
+                                check[frequency]=No[no];
+                                question_question.setText(question[no]);
+
+                                correct.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        correct.setEnabled(false);
+                                        incorrect.setEnabled(false);
+                                        if (ans[no].equals("error")){
+                                            incorrectimage.setVisibility(View.VISIBLE);
+                                        }
+                                        else{
+                                            plus();
+                                        }
+                                        question_prompt.setText(""+prompt[no]);
+                                        question_prompt.setVisibility(View.VISIBLE);
+                                    }
+                                });
+
+                                incorrect.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        correct.setEnabled(false);
+                                        incorrect.setEnabled(false);
+                                        if (ans[no].equals("correct")){
+                                            incorrectimage.setVisibility(View.VISIBLE);
+                                        }
+                                        else{
+                                            plus();
+                                        }
+                                        question_prompt.setText(""+prompt[no]);
+                                        question_prompt.setVisibility(View.VISIBLE);
+                                    }
+                                });
+
+                            }
+
+
+                        }
+                    });
+
+
+
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(question.this, "error！" + error.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest2);
+
+
+
+        //question1();
 
         //1.At the beginning, starting from the "Banker", the cards are distributed one at a time, and each hand distributes two cards.
         //Prompt: starting from the "Player".
@@ -486,12 +647,10 @@ public class question extends AppCompatActivity {
 
     private void plus() {
 
-        correct.setEnabled(false);
-        incorrect.setEnabled(false);
         correctimage.setVisibility(View.VISIBLE);
         plus5.setVisibility(View.VISIBLE);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -550,7 +709,7 @@ public class question extends AppCompatActivity {
 
             case R.id.next:
                 Intent intent2 = new Intent();
-                intent2.setClass(question.this,game.class);
+                intent2.setClass(question.this,question.class);
                 startActivity(intent2);
                 break;
 
@@ -618,7 +777,7 @@ public class question extends AppCompatActivity {
         return true;
     }
 
-/*
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent();
@@ -628,6 +787,6 @@ public class question extends AppCompatActivity {
         }
         return false;
     }
-*/
+
 
 }
