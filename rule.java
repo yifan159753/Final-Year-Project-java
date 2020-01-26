@@ -1,5 +1,9 @@
 package com.example.finalyearproject;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +41,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class rule extends AppCompatActivity {
 
@@ -50,6 +57,7 @@ public class rule extends AppCompatActivity {
     private String checkname,checkmark,checklevel;
     private View v1;
     private int errorcode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +90,6 @@ public class rule extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
 
-
-
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, checkurl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -96,8 +102,6 @@ public class rule extends AppCompatActivity {
 
                             Snackbar.make(view, "Welcome "+checkname+",    mark:"+checkmark+",   level:"+checklevel, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-
-
 
                         }
                         catch (JSONException e){
@@ -132,6 +136,7 @@ public class rule extends AppCompatActivity {
         Random();
 
 
+
         final String[] variableValue = {"card"+cardcolor[1]+card[1],"card"+cardcolor[2]+card[2],"card"+cardcolor[3]+card[3],"card"+cardcolor[4]+card[4],"card"+cardcolor[5]+card[5],"card"+cardcolor[6]+card[6],};
         imageView4.setImageResource(getResources().getIdentifier(variableValue[0], "drawable", getPackageName()));
         imageView5.setImageResource(getResources().getIdentifier(variableValue[1], "drawable", getPackageName()));
@@ -139,6 +144,44 @@ public class rule extends AppCompatActivity {
         imageView1.setImageResource(getResources().getIdentifier(variableValue[3], "drawable", getPackageName()));
         imageView2.setImageResource(getResources().getIdentifier(variableValue[4], "drawable", getPackageName()));
         //imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+
+
+        ObjectAnimator AnimatorView4 = ObjectAnimator.ofFloat(imageView4, "alpha", 0f, 1f);
+        AnimatorView4.setDuration(500);//设置动画时间
+        AnimatorView4.addListener(new AnimatorListenerAdapter() {//动画监听
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                imageView5.setVisibility(View.VISIBLE);
+                ObjectAnimator AnimatorView5 = ObjectAnimator.ofFloat(imageView5, "alpha", 0f, 1f);
+                AnimatorView5.setDuration(500);
+                AnimatorView5.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                        imageView1.setVisibility(View.VISIBLE);
+                        ObjectAnimator AnimatorView1 = ObjectAnimator.ofFloat(imageView1, "alpha", 0f, 1f);
+                        AnimatorView1.setDuration(500);
+                        AnimatorView1.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+
+                                imageView2.setVisibility(View.VISIBLE);
+                                ObjectAnimator AnimatorView2 = ObjectAnimator.ofFloat(imageView2, "alpha", 0f, 1f);
+                                AnimatorView2.setDuration(500);
+                                AnimatorView2.start();
+
+                            }
+                        });
+                        AnimatorView1.start();
+
+                    }
+                });
+                AnimatorView5.start();
+
+            }
+        });
+        AnimatorView4.start();
 
 
         for(int i=1;i<7;i++) {
@@ -206,6 +249,9 @@ public class rule extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
+                                AnimatorView.setDuration(500);
+                                AnimatorView.start();
                                 winthree();
                             }
                         });
@@ -255,12 +301,18 @@ public class rule extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
+                    ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView6, "alpha", 0f, 1f);
+                    AnimatorView.setDuration(500);
+                    AnimatorView.start();
                     question.setText("Do banker need to draws a third card ?");
                     if ((card[4]+card[5])%10<3){
                         yes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
+                                AnimatorView.setDuration(500);
+                                AnimatorView.start();
                                 winfour();
                             }
                         });
@@ -276,6 +328,9 @@ public class rule extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
+                                AnimatorView.setDuration(500);
+                                AnimatorView.start();
                                 winfour();
                             }
                         });
@@ -305,6 +360,9 @@ public class rule extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
+                                AnimatorView.setDuration(500);
+                                AnimatorView.start();
                                 winfour();
                             }
                         });
@@ -334,6 +392,9 @@ public class rule extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
+                                AnimatorView.setDuration(500);
+                                AnimatorView.start();
                                 winfour();
                             }
                         });
@@ -363,6 +424,9 @@ public class rule extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
+                                ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
+                                AnimatorView.setDuration(500);
+                                AnimatorView.start();
                                 winfour();
                             }
                         });
