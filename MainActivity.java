@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logout,rule,wagers,game,leaderboard,introduction;
+    private Button logout,rule,wagers,game,leaderboard,introduction,mainquestion;
     Session session;
     private static String checkurl;
     private String checkname,checkmark,checklevel;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         game=findViewById(R.id.game);
         leaderboard=findViewById(R.id.leaderboard);
         introduction=findViewById(R.id.introduction);
+        mainquestion=findViewById(R.id.mainquestion);
 
         HashMap<String,String> user=session.getUserDetail();
         checkname=user.get(session.NAME);
@@ -130,9 +131,38 @@ public class MainActivity extends AppCompatActivity {
         rule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,rule.class);
-                startActivity(intent);
+
+                LayoutInflater factory=LayoutInflater.from(MainActivity.this);
+                final View v1=factory.inflate(R.layout.game,null);
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(MainActivity.this);
+                inputDialog.setView(v1);
+
+                Button btn = v1.findViewById(R.id.go_to_rule_add);
+                Button btn2 = v1.findViewById(R.id.go_to_rule);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,rule_add.class);
+                        startActivity(intent);
+                    }
+                });
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,rule.class);
+                        startActivity(intent);
+                    }
+                });
+                AlertDialog dialog = inputDialog.create();
+                final Window window = dialog.getWindow();
+                window.setBackgroundDrawable(new ColorDrawable(0));
+                dialog.show();
+
+
             }
         });
 
@@ -164,40 +194,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainquestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,question.class);
+                startActivity(intent);
+            }
+        });
+
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                LayoutInflater factory=LayoutInflater.from(MainActivity.this);
-                final View v1=factory.inflate(R.layout.game,null);
-
-                AlertDialog.Builder inputDialog =
-                        new AlertDialog.Builder(MainActivity.this);
-                inputDialog.setView(v1);
-
-
-                Button btn = (Button) v1.findViewById(R.id.go_to_question);
-                Button btn2 = (Button) v1.findViewById(R.id.go_to_baccarat);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this,question.class);
-                        startActivity(intent);
-                    }
-                });
-                btn2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this,game.class);
-                        startActivity(intent);
-                    }
-                });
-                AlertDialog dialog = inputDialog.create();
-                final Window window = dialog.getWindow();
-                window.setBackgroundDrawable(new ColorDrawable(0));
-                dialog.show();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,game.class);
+                startActivity(intent);
 
             }
         });
