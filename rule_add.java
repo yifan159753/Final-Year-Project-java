@@ -319,7 +319,7 @@ public class rule_add extends AppCompatActivity {
         rule_add_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ((mask==1&&a==8192) || (mask==2&&a==16384) || (mask==3&&a==8063) || (mask==4&&a==126) || (mask==5&&a==903)
+                if ((mask==1&&a==8192) || (mask==2&&a==16384) || (mask==3&&a==8063) || (mask==4&&a==126) || (mask==5&&a==8071)
                         || (mask==6&&a==96) || (mask==7&&a==16384) || (mask==8&&a==16384)){
                         LayoutInflater factory=LayoutInflater.from(rule_add.this);
                         View v1=factory.inflate(R.layout.pass,null);
@@ -615,7 +615,7 @@ public class rule_add extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu2,menu);
         return true;
     }
 
@@ -651,11 +651,6 @@ public class rule_add extends AppCompatActivity {
                 inputDialog.setIcon(R.drawable.logo);
                 inputDialog.setView(v1);
                 inputDialog.setMessage("The dealt cards rule can be summarized as the following figure:\n");
-                /*inputDialog.setMessage("Initially, two cards are dealt for each hand. The point totals determine whether either hand gets a third card. The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, in which case the bank hand wins with no further draw.\n\n"
-                        +
-                        "Banker also stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card.\n\n"
-                        +
-                        "Specific can refer to the following figure:\n");*/
                 inputDialog.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -679,19 +674,6 @@ public class rule_add extends AppCompatActivity {
                         "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
                         "(Pair: when the first 2 cards are the same)\n");
                 inputDialog2.setPositiveButton("sure",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
-                break;
-
-            case R.id.history:
-                AlertDialog.Builder inputDialog3 =
-                        new AlertDialog.Builder(rule_add.this);
-                inputDialog3.setMessage("Temporarily unavailable");
-                inputDialog3.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

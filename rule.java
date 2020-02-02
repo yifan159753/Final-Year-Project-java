@@ -152,15 +152,15 @@ public class rule extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                imageView5.setVisibility(View.VISIBLE);
-                ObjectAnimator AnimatorView5 = ObjectAnimator.ofFloat(imageView5, "alpha", 0f, 1f);
+                imageView1.setVisibility(View.VISIBLE);
+                ObjectAnimator AnimatorView5 = ObjectAnimator.ofFloat(imageView1, "alpha", 0f, 1f);
                 AnimatorView5.setDuration(500);
                 AnimatorView5.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
 
-                        imageView1.setVisibility(View.VISIBLE);
-                        ObjectAnimator AnimatorView1 = ObjectAnimator.ofFloat(imageView1, "alpha", 0f, 1f);
+                        imageView5.setVisibility(View.VISIBLE);
+                        ObjectAnimator AnimatorView1 = ObjectAnimator.ofFloat(imageView5, "alpha", 0f, 1f);
                         AnimatorView1.setDuration(500);
                         AnimatorView1.addListener(new AnimatorListenerAdapter() {
                             @Override

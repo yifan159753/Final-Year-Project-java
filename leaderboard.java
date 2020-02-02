@@ -189,10 +189,9 @@ public class leaderboard extends AppCompatActivity {
 
 
 
-    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu2,menu);
         return true;
     }
 
@@ -213,7 +212,7 @@ public class leaderboard extends AppCompatActivity {
 
             case R.id.next:
                 Intent intent2 = new Intent();
-                intent2.setClass(leaderboard.this, leaderboard.class);
+                intent2.setClass(leaderboard.this,MainActivity.class);
                 startActivity(intent2);
                 break;
 
@@ -227,11 +226,7 @@ public class leaderboard extends AppCompatActivity {
                 inputDialog.setTitle("Dealt cards rule");
                 inputDialog.setIcon(R.drawable.logo);
                 inputDialog.setView(v1);
-                inputDialog.setMessage("Initially, two cards are dealt for each hand. The point totals determine whether either hand gets a third card. The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, in which case the bank hand wins with no further draw.\n\n"
-                        +
-                        "Banker also stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card.\n\n"
-                        +
-                        "Specific can refer to the following figure:\n" );
+                inputDialog.setMessage("The dealt cards rule can be summarized as the following figure:\n");
                 inputDialog.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -241,14 +236,31 @@ public class leaderboard extends AppCompatActivity {
                         }).show();
                 break;
 
-            case R.id.oddsrule:
-                Toast.makeText(this,"你点击了add",Toast.LENGTH_SHORT).show();
+            case R.id.wagerrule:
+
+                AlertDialog.Builder inputDialog2 =
+                        new AlertDialog.Builder(leaderboard.this);
+                inputDialog2.setTitle("Wager calculation rule");
+                inputDialog2.setIcon(R.drawable.logo);
+                inputDialog2.setMessage("- The winner takes the betting amount.\n"+
+                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
+                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
+                        "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
+                        "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
+                        "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
+                        "(Pair: when the first 2 cards are the same)\n");
+                inputDialog2.setPositiveButton("sure",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
                 break;
-            case R.id.history:
-                Toast.makeText(this,"你点击了add",Toast.LENGTH_SHORT).show();
-                break;
+
             default:
         }
         return true;
-    }*/
+    }
+
 }

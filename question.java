@@ -154,6 +154,7 @@ public class question extends AppCompatActivity {
                     no = random.nextInt(num);
                     check[frequency]=No[no];
                     question_question.setText(""+question[no]);
+                    question_no.setText(frequency+"/"+num);
 
                     correct.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -189,7 +190,7 @@ public class question extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            if (frequency==8){
+                            if (frequency==num){
                                 LayoutInflater factory=LayoutInflater.from(question.this);
                                 final View win=factory.inflate(R.layout.finish,null);
 
@@ -215,7 +216,7 @@ public class question extends AppCompatActivity {
                             else {
 
                                 frequency+=1;
-                                question_no.setText(frequency+"/8");
+                                question_no.setText(frequency+"/"+num);
                                 begin();
 
                                 Random random=new Random();
@@ -325,6 +326,8 @@ public class question extends AppCompatActivity {
         //Prompt:  when the Banker's hands is 5, banker stands unless the Player's third card is 4-5-6-7.
 
     }
+
+    /*
 
     private void question1() {
         question_question.setText("At the beginning, starting from the \"Banker\", the cards are distributed one at a time, and each hand distributes two cards.");
@@ -645,6 +648,8 @@ public class question extends AppCompatActivity {
         });
     }
 
+     */
+
     private void plus() {
 
         correctimage.setVisibility(View.VISIBLE);
@@ -688,7 +693,7 @@ public class question extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu2,menu);
         return true;
     }
 
@@ -760,18 +765,7 @@ public class question extends AppCompatActivity {
                         }).show();
                 break;
 
-            case R.id.history:
-                AlertDialog.Builder inputDialog3 =
-                        new AlertDialog.Builder(question.this);
-                inputDialog3.setMessage("Temporarily unavailable");
-                inputDialog3.setPositiveButton("sure",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        }).show();
-                break;
             default:
         }
         return true;

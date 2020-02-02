@@ -192,7 +192,7 @@ public class introduction extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu2,menu);
         return true;
     }
 
@@ -264,18 +264,7 @@ public class introduction extends AppCompatActivity {
                         }).show();
                 break;
 
-            case R.id.history:
-                AlertDialog.Builder inputDialog3 =
-                        new AlertDialog.Builder(introduction.this);
-                inputDialog3.setMessage("Temporarily unavailable");
-                inputDialog3.setPositiveButton("sure",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        }).show();
-                break;
             default:
         }
         return true;
