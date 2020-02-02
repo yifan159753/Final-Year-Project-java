@@ -1,12 +1,8 @@
 package com.example.finalyearproject;
 
-import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -133,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 LayoutInflater factory=LayoutInflater.from(MainActivity.this);
-                final View v1=factory.inflate(R.layout.game,null);
+                final View v1=factory.inflate(R.layout.rule,null);
 
                 AlertDialog.Builder inputDialog =
                         new AlertDialog.Builder(MainActivity.this);
@@ -144,17 +140,55 @@ public class MainActivity extends AppCompatActivity {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this,rule_add.class);
-                        startActivity(intent);
+
+                        LayoutInflater factory=LayoutInflater.from(MainActivity.this);
+                        View v1=factory.inflate(R.layout.dealt_card_rules,null);
+                        AlertDialog.Builder inputDialog =
+                                new AlertDialog.Builder(MainActivity.this);
+                        inputDialog.setView(v1);
+                        inputDialog.setPositiveButton("continue",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent intent = new Intent();
+                                        intent.setClass(MainActivity.this,rule_add.class);
+                                        startActivity(intent);
+
+                                    }
+                                });
+                        AlertDialog dialog = inputDialog.create();
+                        final Window window = dialog.getWindow();
+                        window.setBackgroundDrawable(new ColorDrawable(0));
+                        dialog.show();
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+
                     }
                 });
                 btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this,rule.class);
-                        startActivity(intent);
+                        LayoutInflater factory=LayoutInflater.from(MainActivity.this);
+                        View v1=factory.inflate(R.layout.dealt_card_rules,null);
+                        AlertDialog.Builder inputDialog =
+                                new AlertDialog.Builder(MainActivity.this);
+                        inputDialog.setView(v1);
+                        inputDialog.setPositiveButton("continue",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent intent = new Intent();
+                                        intent.setClass(MainActivity.this,rule.class);
+                                        startActivity(intent);
+
+                                    }
+                                });
+                        AlertDialog dialog = inputDialog.create();
+                        final Window window = dialog.getWindow();
+                        window.setBackgroundDrawable(new ColorDrawable(0));
+                        dialog.show();
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
                     }
                 });
                 AlertDialog dialog = inputDialog.create();

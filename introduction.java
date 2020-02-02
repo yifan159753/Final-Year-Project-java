@@ -135,7 +135,7 @@ public class introduction extends AppCompatActivity {
                 inputDialog.setMessage("Use 8 decks of 52 cards each.\n" +
                         "\nAt the beginning, dealer shuffled the cards first, then a bettor cut the cards or dealer cut the cards himself, inserted the white card above at least about twelve cards at the end, and put the entire set of shuffled cards In the distribution card box, all the cards face down.\n" +
                         "\nDealer chooses how many cards should be removes based on the point of cards on the first card, and then starting to distribute cards.\n" +
-                        "\nWhen the hand is dealt to the white card, it is the last round or only one round can be played.  Taking out the white card and after the game is over, change a new set of cards.\n" +
+                        "\nWhen the hand is dealt to the white card, it is the last round or only one round can be played.  Taking out the white card and after the rule is over, change a new set of cards.\n" +
                         "\nJ, Q, K, 10 and the total of ten points are all set to zero.  Other cards are calculated based on the points on the card, and the card with 9 points is the maximum card.\n" +
                         "\nAt the beginning, starting from the \"Player\", the cards are distributed one at a time, and each hand distributes two cards.\n").show();
 

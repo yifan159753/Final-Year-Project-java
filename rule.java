@@ -589,8 +589,7 @@ public class rule extends AppCompatActivity {
                     //}).show();
                 });
         AlertDialog dialog = inputDialog.create();
-        //点击dialog之外的区域禁止取消dialog
-        dialog.setCancelable(false);
+        dialog.setCancelable(false);//点击dialog之外的区域禁止取消dialog
         final Window window = dialog.getWindow();//透明化
         window.setBackgroundDrawable(new ColorDrawable(0));//透明化
         dialog.show();

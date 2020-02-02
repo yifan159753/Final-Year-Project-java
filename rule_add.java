@@ -46,10 +46,9 @@ public class rule_add extends AppCompatActivity {
     private static String checkurl;
     Session session;
     private String checkname,checkmark,checklevel;
-    private int card1,card2,cardcolor1,cardcolor2,card1copy,card2copy,a=0;
-    private ImageView rule_add_card1,rule_add_card2;
-    private TextView rule_add_question;
-    private CheckBox box1,box2,box3,box4,box5,box6,box7,box8,box9,box10,box11,box12,box13;
+    private int mask,a=0;
+    private ImageView rule_add_1,rule_add_2,rule_add_3,rule_add_4,rule_add_5,rule_add_6,rule_add_7,rule_add_8;
+    private CheckBox box1,box2,box3,box4,box5,box6,box7,box8,box9,box10,box11,box12,box13,box14,box15;
     private Button rule_add_submit;
 
     @Override
@@ -59,11 +58,20 @@ public class rule_add extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        rule_add_card1 = findViewById(R.id.rule_add_card1);
-        rule_add_card2 = findViewById(R.id.rule_add_card2);
-        rule_add_question = findViewById(R.id.rule_add_question);
+
         rule_add_submit = findViewById(R.id.rule_add_submit);
 
+        rule_add_1 = findViewById(R.id.rule_add_1);
+        rule_add_2 = findViewById(R.id.rule_add_2);
+        rule_add_3 = findViewById(R.id.rule_add_3);
+        rule_add_4 = findViewById(R.id.rule_add_4);
+        rule_add_5 = findViewById(R.id.rule_add_5);
+        rule_add_6 = findViewById(R.id.rule_add_6);
+        rule_add_7 = findViewById(R.id.rule_add_7);
+        rule_add_8 = findViewById(R.id.rule_add_8);
+
+        box14 = findViewById(R.id.draws);
+        box15 = findViewById(R.id.stand);
         box1 = findViewById(R.id.card1);
         box2 = findViewById(R.id.card2);
         box3 = findViewById(R.id.card3);
@@ -136,25 +144,26 @@ public class rule_add extends AppCompatActivity {
         });
 
 
-        do {
-            Random random=new Random();
-            cardcolor1 = random.nextInt(4)+1;
-            cardcolor2 = random.nextInt(4)+1;
-            card1 = random.nextInt(13)+1;
-            card2 = random.nextInt(13)+1;
-            card1copy=card1;
-            card2copy=card2;
-            if (card1copy>9){
-                card1copy=0;
-            }
-            if (card2copy>9){
-                card2copy=0;
-            }
-        }while ( ((card1copy+card2copy)%10<3) || ((card1copy+card2copy)%10>6));
+        Random random=new Random();
+        mask = random.nextInt(8)+1;
 
-        rule_add_card1.setImageResource(getResources().getIdentifier("card"+cardcolor1+card1, "drawable", getPackageName()));
-        rule_add_card2.setImageResource(getResources().getIdentifier("card"+cardcolor2+card2, "drawable", getPackageName()));
-        rule_add_question.setText(""+(card1copy+card2copy)%10);
+        if (mask==1)
+            rule_add_1.setVisibility(View.VISIBLE);
+        if (mask==2)
+            rule_add_2.setVisibility(View.VISIBLE);
+        if (mask==3)
+            rule_add_3.setVisibility(View.VISIBLE);
+        if (mask==4)
+            rule_add_4.setVisibility(View.VISIBLE);
+        if (mask==5)
+            rule_add_5.setVisibility(View.VISIBLE);
+        if (mask==6)
+            rule_add_6.setVisibility(View.VISIBLE);
+        if (mask==7)
+            rule_add_7.setVisibility(View.VISIBLE);
+        if (mask==8)
+            rule_add_8.setVisibility(View.VISIBLE);
+
 
 
         box1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -287,9 +296,111 @@ public class rule_add extends AppCompatActivity {
             }
         });
 
+        box14.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked)
+                    a+=8192;
+                else
+                    a-=8192;
+            }
+        });
+
+        box15.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked)
+                    a+=16384;
+                else
+                    a-=16384;
+            }
+        });
+
         rule_add_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ((mask==1&&a==8192) || (mask==2&&a==16384) || (mask==3&&a==8063) || (mask==4&&a==126) || (mask==5&&a==903)
+                        || (mask==6&&a==96) || (mask==7&&a==16384) || (mask==8&&a==16384)){
+                        LayoutInflater factory=LayoutInflater.from(rule_add.this);
+                        View v1=factory.inflate(R.layout.pass,null);
+                        AlertDialog.Builder inputDialog =
+                                new AlertDialog.Builder(rule_add.this);
+                        inputDialog.setView(v1);
+                        inputDialog.setPositiveButton("next",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent intent = new Intent();
+                                        intent.setClass(rule_add.this,rule_add.class);
+                                        startActivity(intent);
+
+                                    }
+                                });
+                        AlertDialog dialog = inputDialog.create();
+                        dialog.setCancelable(false);
+                        final Window window = dialog.getWindow();
+                        window.setBackgroundDrawable(new ColorDrawable(0));
+                        dialog.show();
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+                }
+                else{
+                    LayoutInflater factory=LayoutInflater.from(rule_add.this);
+                    View v1=factory.inflate(R.layout.wrong,null);
+                    AlertDialog.Builder inputDialog =
+                            new AlertDialog.Builder(rule_add.this);
+                    inputDialog.setView(v1);
+                    inputDialog.setPositiveButton("next",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    Intent intent = new Intent();
+                                    intent.setClass(rule_add.this,rule_add.class);
+                                    startActivity(intent);
+
+                                }
+                            });
+                    inputDialog.setNeutralButton("check rules",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    LayoutInflater factory=LayoutInflater.from(rule_add.this);
+                                    View v2=factory.inflate(R.layout.dealt_card_rules,null);
+                                    AlertDialog.Builder inputDialog =
+                                            new AlertDialog.Builder(rule_add.this);
+                                    inputDialog.setView(v2);
+                                    inputDialog.setPositiveButton("next",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                    Intent intent = new Intent();
+                                                    intent.setClass(rule_add.this,rule_add.class);
+                                                    startActivity(intent);
+
+                                                }
+                                            });
+                                    AlertDialog dialog2 = inputDialog.create();
+                                    dialog2.setCancelable(false);
+                                    final Window window = dialog2.getWindow();
+                                    window.setBackgroundDrawable(new ColorDrawable(0));
+                                    dialog2.show();
+                                    dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+
+                                }
+                            });
+                    AlertDialog dialog = inputDialog.create();
+                    dialog.setCancelable(false);
+                    final Window window = dialog.getWindow();
+                    window.setBackgroundDrawable(new ColorDrawable(0));
+                    dialog.show();
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextSize(20);
+                }
+
+                /*
                 if ((card1copy+card2copy)%10==3){
                     if (a==8063){
                         LayoutInflater factory=LayoutInflater.from(rule_add.this);
@@ -493,6 +604,7 @@ public class rule_add extends AppCompatActivity {
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
                     }
                 }
+                 */
 
             }
         });
