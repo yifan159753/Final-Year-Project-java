@@ -129,59 +129,40 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 LayoutInflater factory=LayoutInflater.from(MainActivity.this);
-                View v1=factory.inflate(R.layout.dealt_card_rules,null);
+                final View v1=factory.inflate(R.layout.rule,null);
+
                 AlertDialog.Builder inputDialog =
                         new AlertDialog.Builder(MainActivity.this);
                 inputDialog.setView(v1);
-                inputDialog.setPositiveButton("continue",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+
+                Button btn = v1.findViewById(R.id.go_to_rule_add);
+                Button btn2 = v1.findViewById(R.id.go_to_rule);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,rule_add.class);
+                        startActivity(intent);
 
 
-                                LayoutInflater factory=LayoutInflater.from(MainActivity.this);
-                                final View v1=factory.inflate(R.layout.rule,null);
+                    }
+                });
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                                AlertDialog.Builder inputDialog =
-                                        new AlertDialog.Builder(MainActivity.this);
-                                inputDialog.setView(v1);
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,rule.class);
+                        startActivity(intent);
 
-                                Button btn = v1.findViewById(R.id.go_to_rule_add);
-                                Button btn2 = v1.findViewById(R.id.go_to_rule);
-                                btn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        Intent intent = new Intent();
-                                        intent.setClass(MainActivity.this,rule_add.class);
-                                        startActivity(intent);
-
-
-                                    }
-                                });
-                                btn2.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        Intent intent = new Intent();
-                                        intent.setClass(MainActivity.this,rule.class);
-                                        startActivity(intent);
-
-                                    }
-                                });
-                                AlertDialog dialog2 = inputDialog.create();
-                                final Window window = dialog2.getWindow();
-                                window.setBackgroundDrawable(new ColorDrawable(0));
-                                dialog2.show();
-
-
-                            }
-                        });
-                AlertDialog dialog = inputDialog.create();
-                final Window window = dialog.getWindow();
+                    }
+                });
+                AlertDialog dialog2 = inputDialog.create();
+                final Window window = dialog2.getWindow();
                 window.setBackgroundDrawable(new ColorDrawable(0));
-                dialog.show();
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+                dialog2.show();
+
 
             }
         });
@@ -190,26 +171,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                LayoutInflater factory2=LayoutInflater.from(MainActivity.this);
+                final View v2=factory2.inflate(R.layout.wager_calculation_rules,null);
+
                 AlertDialog.Builder inputDialog2 =
                         new AlertDialog.Builder(MainActivity.this);
-                inputDialog2.setTitle("Wager calculation rule");
-                inputDialog2.setIcon(R.drawable.logo);
-                inputDialog2.setMessage("- The winner takes the betting amount.\n"+
-                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
-                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
-                        "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
-                        "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
-                        "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
-                        "(Pair: when the first 2 cards are the same)\n");
-                inputDialog2.setPositiveButton("continue",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.setClass(MainActivity.this,wagers.class);
-                                startActivity(intent);
-                            }
-                        }).show();
+                inputDialog2.setView(v2);
+
+                final AlertDialog dialog2 = inputDialog2.create();
+                final Window window2 = dialog2.getWindow();
+                window2.setBackgroundDrawable(new ColorDrawable(0));
+                dialog2.show();
+
+                Button btn2 = v2.findViewById(R.id.wager_calculation_rules_continue);
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this,wagers.class);
+                        startActivity(intent);
+
+                    }
+                });
 
             }
         });

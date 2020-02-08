@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +33,8 @@ import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +54,7 @@ public class rule extends AppCompatActivity {
     private int[] cardcolor = new int[7];
     private Button yes,no;
     private ImageView imageView1,imageView2,imageView3,imageView4,imageView5,imageView6;
-    private TextView question;
+    private TextView question,playervalue,bankervalue;
     private static String URL,checkurl;
     Session session;
     private String checkname,checkmark,checklevel;
@@ -70,6 +73,8 @@ public class rule extends AppCompatActivity {
         yes = findViewById(R.id.yes);
         no = findViewById(R.id.no);
         question=findViewById(R.id.question);
+        playervalue=findViewById(R.id.player_value);
+        bankervalue=findViewById(R.id.banker_value);
         imageView1 = findViewById(R.id.banker1);
         imageView2 = findViewById(R.id.banker2);
         imageView3 = findViewById(R.id.banker3);
@@ -145,6 +150,28 @@ public class rule extends AppCompatActivity {
         imageView2.setImageResource(getResources().getIdentifier(variableValue[4], "drawable", getPackageName()));
         //imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
 
+        for(int i=1;i<7;i++) {
+
+            if(card[i]==1){
+                cardcopy[i]="Ace";
+            }
+            else if(card[i]==11){
+                cardcopy[i]="Jack";
+            }
+            else if(card[i]==12){
+                cardcopy[i]="Queen";
+            }
+            else if(card[i]==13){
+                cardcopy[i]="King";
+            }
+            else{
+                cardcopy[i]=Integer.toString(card[i]);
+            }
+
+            if(card[i]>9){
+                card[i] = 0;
+            }
+        }
 
         ObjectAnimator AnimatorView4 = ObjectAnimator.ofFloat(imageView4, "alpha", 0f, 1f);
         AnimatorView4.setDuration(500);//设置动画时间
@@ -169,6 +196,15 @@ public class rule extends AppCompatActivity {
                                 imageView2.setVisibility(View.VISIBLE);
                                 ObjectAnimator AnimatorView2 = ObjectAnimator.ofFloat(imageView2, "alpha", 0f, 1f);
                                 AnimatorView2.setDuration(500);
+                                AnimatorView2.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+
+                                        playervalue.setText(""+(card[1]+card[2])%10);
+                                        bankervalue.setText(""+(card[4]+card[5])%10);
+
+                                    }
+                                });
                                 AnimatorView2.start();
 
                             }
@@ -183,29 +219,6 @@ public class rule extends AppCompatActivity {
         });
         AnimatorView4.start();
 
-
-        for(int i=1;i<7;i++) {
-
-            if(card[i]==1){
-                cardcopy[i]="Ace";
-            }
-            else if(card[i]==11){
-                cardcopy[i]="Jack";
-            }
-            else if(card[i]==12){
-                cardcopy[i]="Queen";
-            }
-            else if(card[i]==13){
-                cardcopy[i]="King";
-            }
-            else{
-                cardcopy[i]=Integer.toString(card[i]);
-            }
-
-            if(card[i]>9){
-                card[i] = 0;
-            }
-        }
 
 
 
@@ -251,6 +264,12 @@ public class rule extends AppCompatActivity {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
                                 AnimatorView.setDuration(500);
+                                AnimatorView.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bankervalue.setText(""+(((card[4]+card[5])%10)+card[6])%10);
+                                    }
+                                });
                                 AnimatorView.start();
                                 winthree();
                             }
@@ -303,6 +322,12 @@ public class rule extends AppCompatActivity {
                     imageView6.setImageResource(getResources().getIdentifier(variableValue[2], "drawable", getPackageName()));
                     ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView6, "alpha", 0f, 1f);
                     AnimatorView.setDuration(500);
+                    AnimatorView.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            playervalue.setText(""+(((card[1]+card[2])%10)+card[3])%10);
+                        }
+                    });
                     AnimatorView.start();
                     question.setText("Do banker need to draws a third card ?");
                     if ((card[4]+card[5])%10<3){
@@ -312,6 +337,12 @@ public class rule extends AppCompatActivity {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
                                 AnimatorView.setDuration(500);
+                                AnimatorView.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bankervalue.setText(""+(((card[4]+card[5])%10)+card[6])%10);
+                                    }
+                                });
                                 AnimatorView.start();
                                 winfour();
                             }
@@ -330,6 +361,12 @@ public class rule extends AppCompatActivity {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
                                 AnimatorView.setDuration(500);
+                                AnimatorView.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bankervalue.setText(""+(((card[4]+card[5])%10)+card[6])%10);
+                                    }
+                                });
                                 AnimatorView.start();
                                 winfour();
                             }
@@ -362,6 +399,12 @@ public class rule extends AppCompatActivity {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
                                 AnimatorView.setDuration(500);
+                                AnimatorView.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bankervalue.setText(""+(((card[4]+card[5])%10)+card[6])%10);
+                                    }
+                                });
                                 AnimatorView.start();
                                 winfour();
                             }
@@ -394,6 +437,12 @@ public class rule extends AppCompatActivity {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
                                 AnimatorView.setDuration(500);
+                                AnimatorView.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bankervalue.setText(""+(((card[4]+card[5])%10)+card[6])%10);
+                                    }
+                                });
                                 AnimatorView.start();
                                 winfour();
                             }
@@ -426,6 +475,12 @@ public class rule extends AppCompatActivity {
                                 imageView3.setImageResource(getResources().getIdentifier(variableValue[5], "drawable", getPackageName()));
                                 ObjectAnimator AnimatorView = ObjectAnimator.ofFloat(imageView3, "alpha", 0f, 1f);
                                 AnimatorView.setDuration(500);
+                                AnimatorView.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        bankervalue.setText(""+(((card[4]+card[5])%10)+card[6])%10);
+                                    }
+                                });
                                 AnimatorView.start();
                                 winfour();
                             }
@@ -872,50 +927,73 @@ public class rule extends AppCompatActivity {
 
                 AlertDialog.Builder inputDialog =
                         new AlertDialog.Builder(rule.this);
-                inputDialog.setTitle("Dealt cards rule");
-                inputDialog.setIcon(R.drawable.logo);
+                //inputDialog.setTitle("Dealt cards rule");
+                //inputDialog.setIcon(R.drawable.logo);
                 inputDialog.setView(v1);
-                inputDialog.setMessage("The dealt cards rule can be summarized as the following figure:\n");
                 /*inputDialog.setMessage("Initially, two cards are dealt for each hand. The point totals determine whether either hand gets a third card. The player hand is completed first. A total of 8 or 9 is called a \"natural,\" and the player hand gets no more cards. Player also stands on totals of 6 or 7. On any other total, zero through 5, player draws a third card, unless banker has a natural, in which case the bank hand wins with no further draw.\n\n"
                         +
                         "Banker also stands on 7, 8, or 9 and draws on 0, 1, or 2, but on other hands the banker's play is dependent on the value of the player's third card.\n\n"
                         +
                         "Specific can refer to the following figure:\n");*/
-                inputDialog.setPositiveButton("sure",
+                /*inputDialog.setPositiveButton("sure",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
                             }
-                        }).show();
+                        });*/
+
+                final AlertDialog dialog = inputDialog.create();
+                //dialog.setCancelable(false);
+                final Window window = dialog.getWindow();
+                window.setBackgroundDrawable(new ColorDrawable(0));
+                dialog.show();
+                //dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+
+                Button btn = v1.findViewById(R.id.dealt_card_rules_continue);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
                 break;
 
             case R.id.wagerrule:
 
+                LayoutInflater factory2=LayoutInflater.from(rule.this);
+                final View v2=factory2.inflate(R.layout.wager_calculation_rules,null);
+
                 AlertDialog.Builder inputDialog2 =
                         new AlertDialog.Builder(rule.this);
-                inputDialog2.setTitle("Wager calculation rule");
-                inputDialog2.setIcon(R.drawable.logo);
-                inputDialog2.setMessage("- The winner takes the betting amount.\n"+
-                        "(If a participant wins by betting on the hand of the “banker”, 5% commission is deducted from the winning amount)\n" +
-                        "(If a participant wins by betting on the hand of the “player”, participant wins 1 times the betting amount)\n\n"+
-                        "- If a participant wins by betting a tie wager, participant wins 8 times the betting amount.\n"+
-                        "(Tie: when the sums of the banker’s hand and the player’s hand are the same)\n\n"+
-                        "- If a participant wins by Pair Bet, participant wins 11 times the betting amount.\n" +
-                        "(Pair: when the first 2 cards are the same)\n");
-                inputDialog2.setPositiveButton("sure",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                inputDialog2.setView(v2);
 
-                            }
-                        }).show();
+                final AlertDialog dialog2 = inputDialog2.create();
+                final Window window2 = dialog2.getWindow();
+                window2.setBackgroundDrawable(new ColorDrawable(0));
+                dialog2.show();
+
+                Button btn2 = v2.findViewById(R.id.wager_calculation_rules_continue);
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog2.dismiss();
+
+                    }
+                });
+
                 break;
 
             case R.id.history:
+
                 Intent intent3 = new Intent();
                 intent3.setClass(rule.this,historyrule.class);
                 startActivity(intent3);
+
                 break;
             default:
         }

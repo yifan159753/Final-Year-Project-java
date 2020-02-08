@@ -1,6 +1,7 @@
 package com.example.finalyearproject;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -13,12 +14,17 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -190,6 +196,92 @@ public class historywagers extends AppCompatActivity {
 
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu2,menu);
+        return true;
+    }
+
+    //定义菜单响应事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:   //返回键的id
+                this.finish();
+                return false;
+
+
+            case R.id.index:
+                Intent intent = new Intent();
+                intent.setClass(historywagers.this,wagers.class);
+                startActivity(intent);
+                break;
+
+            case R.id.next:
+                Intent intent2 = new Intent();
+                intent2.setClass(historywagers.this,wagers.class);
+                startActivity(intent2);
+                break;
+
+            case R.id.dealtrule:
+
+                LayoutInflater factory=LayoutInflater.from(historywagers.this);
+                final View v1=factory.inflate(R.layout.dealt_card_rules,null);
+
+                AlertDialog.Builder inputDialog =
+                        new AlertDialog.Builder(historywagers.this);
+                inputDialog.setView(v1);
+                final AlertDialog dialog = inputDialog.create();
+                final Window window = dialog.getWindow();
+                window.setBackgroundDrawable(new ColorDrawable(0));
+                dialog.show();
+
+                Button btn = v1.findViewById(R.id.dealt_card_rules_continue);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                break;
+
+            case R.id.wagerrule:
+
+                LayoutInflater factory2=LayoutInflater.from(historywagers.this);
+                final View v2=factory2.inflate(R.layout.wager_calculation_rules,null);
+
+                AlertDialog.Builder inputDialog2 =
+                        new AlertDialog.Builder(historywagers.this);
+                inputDialog2.setView(v2);
+
+                final AlertDialog dialog2 = inputDialog2.create();
+                final Window window2 = dialog2.getWindow();
+                window2.setBackgroundDrawable(new ColorDrawable(0));
+                dialog2.show();
+
+                Button btn2 = v2.findViewById(R.id.wager_calculation_rules_continue);
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog2.dismiss();
+
+                    }
+                });
+
+                break;
+
+
+            default:
+        }
+        return true;
+    }
+
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
