@@ -149,19 +149,19 @@ public class wagers extends AppCompatActivity {
                     value.setText(""+wager);
                     if (win<=6){
                         winner="Blanker";
-                        question.setText("Wins by betting on the Banker's hand, wagers calculation:");
+                        question.setText("Banker's hand");
                     }
                     else if (win<=8){
                         winner="Player";
-                        question.setText("Wins by betting on the Player's hand, wagers calculation:");
+                        question.setText("Player's hand");
                     }
                     else if (win==9){
                         winner="Tie";
-                        question.setText("Wins by betting on the Tie, wagers calculation:");
+                        question.setText("Tie");
                     }
                     else if (win==10){
                         winner="Pair";
-                        question.setText("Wins by betting on the Pair, wagers calculation:");
+                        question.setText("Pair");
                     }
 
 
