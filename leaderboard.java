@@ -167,7 +167,6 @@ public class leaderboard extends AppCompatActivity {
                         t1.addView(newRow, new TableLayout.LayoutParams());
                     }
 
-
                 }
                 catch (JSONException e){
                     e.printStackTrace();
@@ -185,8 +184,6 @@ public class leaderboard extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-
-
 
     }
 

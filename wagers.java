@@ -119,9 +119,11 @@ public class wagers extends AppCompatActivity {
                             }
 
                             public void onFinish() {
+                                LayoutInflater factory=LayoutInflater.from(wagers.this);
+                                View v1=factory.inflate(R.layout.timeup,null);
                                 AlertDialog.Builder inputDialog =
                                         new AlertDialog.Builder(wagers.this);
-                                inputDialog.setTitle("Sorry, time is up.");
+                                inputDialog.setView(v1);
                                 inputDialog.setPositiveButton("next",
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -136,7 +138,10 @@ public class wagers extends AppCompatActivity {
                                         });
                                 AlertDialog dialog = inputDialog.create();
                                 dialog.setCancelable(false);
+                                final Window window = dialog.getWindow();
+                                window.setBackgroundDrawable(new ColorDrawable(0));
                                 dialog.show();
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
                             }
 
                         }.start();

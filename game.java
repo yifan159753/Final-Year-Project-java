@@ -103,7 +103,7 @@ public class game extends AppCompatActivity {
                 if (status == TextToSpeech.SUCCESS) {
                     textToSpeech.speak(question.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 } else {
-                    Toast.makeText(game.this, "初始化失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(game.this, "initialization failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
